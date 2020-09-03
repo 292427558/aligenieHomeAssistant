@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>操作列表</title>
+    <!-- CSS 部分 -->
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Bootstrap table -->
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+<!--    <script src="/js/jquery-1.9.1.min.js"></script>-->
+    <script src="/js/jquery-2.1.4.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- bootstrap-table -->
+    <script src="/js/bootstrap-table.min.js"></script>
+</head>
+<body>
+<div class="row">
+    <hr/>
+</div>
+<h1>天猫操作列表</h1>
+<table class="table table-striped" id="table">
+    <thead style="background-color:#ccc;">
+    <!--<table id="enterpriseProduct_tab" class="table table-hover"></table>-->
+</table>
+</body>
+<!-- JS 部分 -->
+<!-- jQuery 3 -->
+
+<script>
+    var $table;
+    $(function(){
+        //记录页面bootstrap-table全局变量$table，方便应用
+        var queryUrl = '/setting/operationLists'
+        $table = $('#table').bootstrapTable({
+            url: queryUrl,                      //请求后台的URL（*）
+            method: 'GET',                      //请求方式（*）
+            //toolbar: '#toolbar',              //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            dataType : "json",                   //后端数据传递类型
+            // dataField : "data",                 //很重要，这是后端返回的实体数据！
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: false,                     //是否启用排序
+            sortName:"createTimestamp",
+            sortOrder: "asc",                   //排序方式
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            paginationLoop: true,
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 10,                         //每页的记录行数（*）
+            pageList: [],         //可供选择的每页的行数（*）
+            search: false,                      //是否显示表格搜索
+            strictSearch: true,
+            showColumns: false,                  //是否显示所有的列（选择显示的列）
+            showRefresh: false,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                //是否启用点击选中行
+            //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+            showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                  //是否显示父子表
+            //得到查询的参数
+            queryParams:qua_queryParams,
+            columns:[
+                // {
+                //     title:'全选',
+                //     field:'select',
+                //     checkbox:true,
+                //     width:25,
+                //     align:'center',
+                //     valign:'middle'
+                // },
+                {
+                    title:'id',
+                    field:'enterpriseQualificationId',
+                    visible:false
+                },
+                {
+                    title:'操作代码',
+                    field:'name'
+                },
+                {
+                    title:'操作名称',
+                    field:'friendlyName',
+                    // formatter:certificateStatus //失效状态判断
+                },
+                {
+                    title:'操作',
+                    field:'Button',
+                    align:'center',
+                    // events: operateEvents,//事件
+                    formatter:addDel //添加按钮
+                }
+            ],
+            responseHandler:function(res){
+                return{"rows": res.content, "total": res.totalElements};
+            },
+            onLoadSuccess: function (data) {
+                console.log("==============================");
+                console.log(data);
+            },
+            onLoadError: function () {
+                console.log("数据加载失败！");
+            },
+            onDblClickRow: function (row, $element) {
+
+            },
+        });
+    })
+
+    function addDel(value, row, index) {
+        var html = '<a href="javascript:void(0)" onclick="delOperation(\''+row.id+'\')">删除</a>';
+        return html;
+    }
+    //查询参数
+    function qua_queryParams(params) {
+        return {
+            /*pageSize: params.limit,
+             pageNum:params.pageNumber,*/
+            pageSize: params.limit, //找多少条
+            pageNum: params.offset / params.limit
+            // pageNum: (params.offset / params.limit) + 1
+        }
+    }
+
+
+    function delOperation(id) {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "post",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/operation/"+id ,//url
+            data: {'_method':'delete'},
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                    refresh();
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+    }
+    function refresh(){
+
+        $('#table').bootstrapTable('refresh', {url: "/setting/operationLists",pageNumber:0});
+    }
+</script>
+</html>

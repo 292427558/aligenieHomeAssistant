@@ -1,0 +1,43 @@
+server:
+  port: 2000
+#  ssl:
+#    key-store: fullchain.jks
+#    key-store-password: 20121221
+#    key-store-type: JKS
+#    enabled: true
+
+spring:
+  jackson:
+    default-property-inclusion: non_empty
+  datasource:
+    url: jdbc:mysql://192.168.50.200:3307/tmall?useUnicode=true&characterEncoding=utf8&useSSL=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    schema: classpath:init.sql
+    #    仅第一次启动需要初始化 第二次需要修改为never否则重启应用数据库会被清空
+#    initialization-mode: always
+    initialization-mode: never
+  jpa:
+    database: MySQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  security:
+    user:
+      name: admin
+      password: 123456
+#  redis:
+#    host: 192.168.24.132
+#    database: 0
+
+#logging.level.org.springframework.security: DEBUG
+#debug: false
+
+HomeAssistant:
+  token: XXXX
+#  url: http://127.0.0.1:8123/api/
+  url: http://192.168.50.200:8123/api/
+
