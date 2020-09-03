@@ -1,0 +1,146 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Dashboard Template · Bootstrap</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+<!--<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">-->
+<!--    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>-->
+<!--    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
+<!--    <ul class="navbar-nav px-3">-->
+<!--        <li class="nav-item text-nowrap">-->
+<!--            <a class="nav-link" href="#">Sign out</a>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</nav>-->
+
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link operation active" onclick="getPages('operation')">
+                            <span data-feather="home"></span>
+                            操作管理 <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link operations" onclick="getPages('operations')">
+                            <span data-feather="file"></span>
+                            操作列表
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link device" onclick="getPages('device')">
+                            <span data-feather="shopping-cart"></span>
+                            新增设备
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link devices" onclick="getPages('devices')">
+                            <span data-feather="shopping-cart"></span>
+                            设备列表
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+
+            <iframe id="frame" src="/page/operation/addOperation" align="center" width="80%" height="900px"
+                    frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" ></iframe>
+<!--            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">-->
+<!--                <h1 class="h2">Dashboard</h1>-->
+<!--                <div class="btn-toolbar mb-2 mb-md-0">-->
+<!--                    <div class="btn-group mr-2">-->
+<!--                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>-->
+<!--                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>-->
+<!--                    </div>-->
+<!--                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">-->
+<!--                        <span data-feather="calendar"></span>-->
+<!--                        This week-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+<!--            <h2>Section title</h2>-->
+<!--            <div class="table-responsive" id="222">-->
+<!--                5445646-->
+<!--            </div>-->
+        </main>
+    </div>
+</div>
+<!--<script>window.jQuery || document.write('<script src="/js/vendor/jquery-slim.min.js"><\/script>')</script>-->
+<script src="/js/vendor/jquery-slim.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+<script src="/js/jquery-1.9.1.min.js"></script>
+<script th:inline="javascript">
+    //获取项目名
+    /*<![CDATA[*/
+    var context = /*[[@{/}]]*/ '';
+    /*]]>*/
+    function getPages(menuName) {
+
+        $(".nav-link").removeClass("active");
+        if(menuName=='operation'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/operation/addOperation");
+                $(".nav-link.operation").addClass("active")
+            })
+        }else if(menuName=='operations'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/operation/operations");
+                $(".nav-link.operations").addClass("active")
+            })
+        }else if(menuName=='device'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/device/addDevice");
+                $(".nav-link.device").addClass("active")
+            })
+        }else if(menuName=='devices'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/device/devices");
+                $(".nav-link.devices").addClass("active")
+            })
+        }
+
+
+    }
+</script>
+</html>

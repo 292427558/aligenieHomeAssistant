@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>新增HomeAssistant设备</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/form-validation.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container">
+    <div class="row">
+        <hr/>
+    </div>
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">新增HomeAssistant设备</h4>
+            <form class="needs-validation" method="post" action="/setting/operation" novalidate>
+
+<!--                <div class="mb-3">-->
+<!--                    <label for="entityId">实体id</label>-->
+<!--                    <input type="text" class="form-control" id="entityId" name="entityId" placeholder="如：fan.xiao_mi_kong_qi_jing_hua_qi" required>-->
+<!--                    <div class="invalid-feedback" style="width: 100%;">-->
+<!--                        请输入实体id-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="mb-3">
+                    <label for="entityId">实体id</label>
+                    <select class="form-control" name="entityId" id="entityId">
+                    </select>
+                    <div class="invalid-feedback" style="width: 100%;">
+                        请选择实体id
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="deviceName">设备名称</label>
+                    <input type="text" class="form-control" id="deviceName" name="deviceName" placeholder="如：airpurifier" required>
+                    <div class="invalid-feedback">
+                        请输入设备名称
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="deviceZone">设备区域</label>
+                    <input type="text" class="form-control" id="deviceZone" name="deviceZone" placeholder="如：主卧:需和tmall的支持列表一致">
+                    <div class="invalid-feedback">
+                        请输入设备品牌
+                    </div>
+                </div>
+<!--                <div class="mb-3">-->
+<!--                    <label for="deviceType">设备类型</label>-->
+<!--                    <input type="text" class="form-control" id="deviceType" name="deviceType" placeholder="如：设备打开" required>-->
+<!--                    <div class="invalid-feedback">-->
+<!--                        请输入设备类型-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="mb-3">
+                    <label for="deviceType">设备类型</label>
+                    <select class="form-control" name="deviceType" id="deviceType">
+                    </select>
+                    <div class="invalid-feedback" style="width: 100%;">
+                        请选择设备类型
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="brand">设备品牌</label>
+                    <input type="text" class="form-control" id="brand" name="brand" placeholder="如：小米">
+                    <div class="invalid-feedback">
+                        请输入设备品牌
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="model">设备型号</label>
+                    <input type="text" class="form-control" id="model" name="model" placeholder="如：zhimi.airpurifier.v3">
+                    <div class="invalid-feedback">
+                        请输入设备型号
+                    </div>
+                </div>
+
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+
+<!--<script>window.jQuery || document.write('')</script>-->
+<script src="/js/vendor/jquery-slim.min.js"></script>
+<script src="/js/vendor/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/vendor/holder.min.js"></script>
+<script src="/js/jquery-1.9.1.min.js"></script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }else{
+                        event.preventDefault();
+                        event.stopPropagation();
+                        add($(form).serialize());
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+
+    })();
+
+    $(document).ready(function () {
+        $.ajax({
+            type:"get",
+            url:'/setting/entityids',
+            success: function (data) {
+                enterprise_productlist = data;
+                var html = '';
+                $.each(data, function(key,val) {
+                    html += '<option  value="'+val+'">'+val+'</option>';
+
+                });
+                $('#entityId').append(html);
+            },
+            error:function(){}
+        });
+
+        $.ajax({
+            type:"get",
+            url:'/setting/deviceTypes',
+            success: function (data) {
+                enterprise_productlist = data;
+                var html = '';
+                $.each(data, function(key,val) {
+                    html += '<option  value="'+val.englishName+'">'+val.name+'</option>';
+
+                });
+                $('#deviceType').append(html);
+            },
+            error:function(){}
+        });
+    })
+
+    function add(datas) {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/device" ,//url
+            data: datas,
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

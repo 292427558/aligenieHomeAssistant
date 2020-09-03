@@ -1,0 +1,35 @@
+<configuration>
+    <springProperty scope="context" name="app_name" source="spring.application.name" />
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <jmxConfigurator/>
+
+    <!-- 定义日志存储的路径，不要配置相对路径 -->
+<!--    <property name="FILE_PATH" value="config/log/app.%d{yyyy-MM-dd}.%i.log" />-->
+    <property name="logDir" value="config/logs"/>
+
+    <!--每天生成一个日志文件，保存7天的日志文件。rollingFile用来切分文件的 -->
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/app.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}pp.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+<!--            <fileNamePattern>${FILE_PATH}</fileNamePattern>-->
+            <!-- 保存7天的日志文件 -->
+            <maxHistory>7</maxHistory>
+            <!-- 日志文件的最大大小 -->
+            <MaxFileSize>10MB</MaxFileSize>
+            <!-- 超出删除老文件 -->
+            <totalSizeCap>50MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd} %d{HH:mm:ss.SSS}  [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="rollingFile"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

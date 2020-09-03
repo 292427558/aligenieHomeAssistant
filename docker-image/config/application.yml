@@ -1,0 +1,43 @@
+server:
+  port: 2000
+  ssl:
+#    修改此处的  fullchain.jks 为你的证书文件名称  注意不要修改路径 只修改文件名
+    key-store: /opt/aligenie/config/fullchain.jks
+#    修改此处的 为 你的证书文件密码
+    key-store-password: 20121221
+    key-store-type: JKS
+    enabled: true
+
+spring:
+  jackson:
+    default-property-inclusion: non_empty
+  datasource:
+#    修改此处的数据库地址和端口号
+    url: jdbc:mysql://192.168.50.200:3306/tmall?useUnicode=true&characterEncoding=utf8&useSSL=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+#    修改此处的数据库用户名和密码
+    username: root
+    password: 123456hh
+    schema: classpath:init.sql
+    #    仅第一次启动需要初始化 第二次需要修改为never否则重启应用数据库会被清空
+    initialization-mode: always
+#    initialization-mode: never
+  jpa:
+    database: MySQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  security:
+    user:
+      #      修改登录的账户和密码
+      name: admin
+      password: 123456haha
+
+HomeAssistant:
+#  修改此处的token为 你的 homeassistant 生成的永久访问token
+  token: XXXXXXX
+#  修改此处 homeassistant 的ip和端口号 注意最后的  “/”不要去掉
+  url: http://192.168.50.200:8123/api/
+
