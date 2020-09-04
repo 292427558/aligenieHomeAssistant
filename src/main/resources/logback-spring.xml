@@ -13,7 +13,7 @@
         <file>${logDir}/app.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logDir}pp.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${logDir}/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 <!--            <fileNamePattern>${FILE_PATH}</fileNamePattern>-->
             <!-- 保存7天的日志文件 -->
             <maxHistory>7</maxHistory>

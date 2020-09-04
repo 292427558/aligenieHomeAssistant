@@ -10,16 +10,23 @@
 
 ### 3、架构
 参考了论坛中<https://bbs.hassbian.com/thread-1862-1-1.html>的框图，原谅我盗图
-![架构](https://github.com/292427558/aligenieHomeAssistant/blob/sqldatadevelop/pic/frame.jpg)
+
+![image](https://github.com/292427558/aligenieHomeAssistant/blob/master/pic/frame.jpg)
 
 
 # 部署
+总的来说 就是docker容器部署，拉取镜像，修改配置，配置https证书
 
 ## 部署条件
-1、需要自己有公网ip，其他内网穿透方式没测试过。作者是动态公网ip 然后ddns方式
+1、需要自己有公网ip，动态就行
+
 2、证书文件 配置https，作者采取homeassistant的插件duck dns生成的证书文件。
+
 3、树莓派 或者其他可以运行java 或者 docker的环境。
+
 4、homeassistant 开启了rest api访问.
+
+5、mysql数据库，推荐5.7版本
 ### 1、springboot jar包部署
 项目采用springboot方式，作者已经打好包，在docker-image目录下。
 ### 2、docker 镜像部署
@@ -37,12 +44,5 @@ docker hub
 
 ```docker pull registry.cn-hangzhou.aliyuncs.com/junge/aligeniehomeassistant:latest```
 
+具体步骤懒得写请参考论坛
 
-# 待完善部分
-
-### 1、配置设备暂时没有设备位置选项下拉
-    待完善，暂时实现为输入域 需和tmall的一致
-### 2、目前暂只实现了空调和空气净化器
-    由于作者家中只接入了空调和小米的空气净化器,目前为硬编码支持格力空调和小米空气净化器pro3
-    其他设备的支持 作者正在完善，有兴趣的可以fork代码自己完善
-### 镜像编译 优化 内存优化  容器日志中文乱码  部分请求不需要登录就可以访问 
