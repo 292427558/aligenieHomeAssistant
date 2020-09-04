@@ -44,5 +44,13 @@ docker hub
 
 ```docker pull registry.cn-hangzhou.aliyuncs.com/junge/aligeniehomeassistant:latest```
 
-具体步骤懒得写请参考论坛
+#### 具体步骤懒得写请参考论坛
 
+天猫精灵接入home assistant docker 部署（oauth2.0）Java实现
+ https://bbs.hassbian.com/thread-10699-1-1.html
+ (出处: 『瀚思彼岸』» 智能家居技术论坛)
+
+
+### 说明
+
+请勿用于商业用途
