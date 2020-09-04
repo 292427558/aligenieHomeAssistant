@@ -1,8 +1,9 @@
 FROM houwm/jdk8
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+#ENV LANG en_US.UTF-8
+#ENV LANGUAGE en_US:en
+#ENV LC_ALL en_US.UTF-8
+ENV LANG C.UTF-8
 
 COPY docker-image /opt/aligenie
 #RUN mkdir /opt/aligenie/config
