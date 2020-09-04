@@ -41,6 +41,16 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                         aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/fan/turn_on","TurnOnResponse");
                         return aliControllResult;
                     }
+                    if("switch".equals(deviceType)){
+                        //开关
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/switch/turn_on","TurnOnResponse");
+                        return aliControllResult;
+                    }
+                    if("light".equals(deviceType)){
+                        //开关
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_on","TurnOnResponse");
+                        return aliControllResult;
+                    }
                     break;
                 case "TurnOff":
                     //关闭设备
@@ -52,6 +62,16 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                     if("airpurifier".equals(deviceType)){
                         //空气净化器
                         aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/fan/turn_off","TurnOffResponse");
+                        return aliControllResult;
+                    }
+                    if("switch".equals(deviceType)){
+                        //开关
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/switch/turn_off","TurnOffResponse");
+                        return aliControllResult;
+                    }
+                    if("light".equals(deviceType)){
+                        //开关
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_off","TurnOffResponse");
                         return aliControllResult;
                     }
                     break;
