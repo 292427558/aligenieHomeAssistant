@@ -28,6 +28,9 @@ public class DeviceControlServiceImpl implements DeviceControlService {
         String deviceType = aliRequest.getPayload().getDeviceType();
         AliControllResult aliControllResult = null;
         if("AliGenie.Iot.Device.Control".equals(namespace)){
+            //此处处理数据库中配置的参数 需要有缓存 避免频繁查询数据库
+
+            //这儿为代码中内置的部分 若未从数据库查询到则走此逻辑
             switch (name){
                 case "TurnOn":
                     //打开设备

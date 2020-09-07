@@ -6,6 +6,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -31,4 +35,7 @@ public class Operation {
     @Column(name = "friendly_name", unique = true, nullable = false, length = 128)
     @NotEmpty(message = "操作名称不可为空")
     private String friendlyName;
+
+    @OneToMany(targetEntity=DeviceTypeOperation.class,mappedBy = "deviceType",fetch = FetchType.EAGER)
+    private List<DeviceType> deviceTypes = new ArrayList<>();
 }

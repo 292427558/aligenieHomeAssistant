@@ -5,6 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * mode class
@@ -27,4 +29,7 @@ public class DeviceType {
 
     @Column(name = "englishName", nullable = false, length = 256)
     private String englishName;
+
+    @OneToMany(targetEntity=DeviceTypeOperation.class,mappedBy = "operation",fetch = FetchType.EAGER)
+    private List<Operation> operations = new ArrayList<>();
 }
