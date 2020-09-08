@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
- * mode class
+ * homeassistant 服务调用 参数表
  *
  * @Author LiuJun
  * @Date 2020/9/8 11:17

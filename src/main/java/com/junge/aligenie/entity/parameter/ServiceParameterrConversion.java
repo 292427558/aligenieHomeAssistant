@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * mode class
+ * homeassistant 服务调用 参数转化表 用于转化 tmall和 homeassistant的参数
  *
  * @Author LiuJun
  * @Date 2020/9/8 11:18
