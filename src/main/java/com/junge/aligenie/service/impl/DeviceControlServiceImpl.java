@@ -3,7 +3,9 @@ package com.junge.aligenie.service.impl;
 import com.junge.aligenie.bean.AliControllResult;
 import com.junge.aligenie.bean.AliRequest;
 import com.junge.aligenie.bean.HeaderBean;
+import com.junge.aligenie.entity.DeviceTypeOperation;
 import com.junge.aligenie.service.DeviceControlService;
+import com.junge.aligenie.service.DeviceTypeOperationService;
 import com.junge.aligenie.service.HomeAssistantApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class DeviceControlServiceImpl implements DeviceControlService {
     @Autowired
     HomeAssistantApi homeAssistantApi;
 
+    @Autowired
+    DeviceTypeOperationService deviceTypeOperationService;
+
     @Override
     public AliControllResult deviceControl(AliRequest aliRequest) {
         String namespace = aliRequest.getHeader().getNamespace();
@@ -29,7 +34,13 @@ public class DeviceControlServiceImpl implements DeviceControlService {
         AliControllResult aliControllResult = null;
         if("AliGenie.Iot.Device.Control".equals(namespace)){
             //此处处理数据库中配置的参数 需要有缓存 避免频繁查询数据库
-
+            //安装设备类型查询
+            DeviceTypeOperation deviceTypeOperation = deviceTypeOperationService.getDeviceTypeOperation(deviceType, name);
+            aliControllResult = deviceTypeOperationService.getControlResult(aliRequest,deviceTypeOperation,deviceId);
+            if(aliControllResult!=null){
+                //不为空 已由数据库参数 调用homeassistant
+                return aliControllResult;
+            }
             //这儿为代码中内置的部分 若未从数据库查询到则走此逻辑
             switch (name){
                 case "TurnOn":
