@@ -1,10 +1,15 @@
 package com.junge.aligenie.entity;
 
+import com.junge.aligenie.entity.parameter.ServiceParameter;
+import com.junge.aligenie.entity.parameter.ServiceParameterrConversion;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * mode class
@@ -45,4 +50,8 @@ public class DeviceTypeOperation {
     @JoinColumn(name = "operation_id",referencedColumnName = "id")
     private Operation operation;
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)//指定抓取策略
+    @JoinColumn(name = "device_type_operation_id",referencedColumnName = "id")
+    private List<ServiceParameter> serviceParameters;
 }
