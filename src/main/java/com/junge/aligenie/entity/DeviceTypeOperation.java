@@ -22,9 +22,20 @@ public class DeviceTypeOperation {
     @GeneratedValue(generator = "idGenerator")
     private String id;
 
-    @Column(name = "service", unique = true, nullable = false, length = 128)
+    @Column(name = "service", nullable = false, length = 128)
     @NotEmpty(message = "服务不可为空")
     private String service;
+
+    @Column(name = "response_name", nullable = false, length = 128)
+    @NotEmpty(message = "响应代码不可为空")
+    private String responseName;
+
+    /*
+     * 1  控制操作  2 查询操作
+     **/
+    @Column(name = "request_type",nullable = false, length = 1)
+    @NotEmpty(message = "类别")
+    private String requestType = "1";
 
     @ManyToOne
     @JoinColumn(name = "deviceType_id",referencedColumnName = "id")
