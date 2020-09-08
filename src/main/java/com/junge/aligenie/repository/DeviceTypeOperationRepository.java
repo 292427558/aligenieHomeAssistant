@@ -11,4 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface DeviceTypeOperationRepository extends JpaRepository<DeviceTypeOperation,String> {
 
+    DeviceTypeOperation getDeviceTypeOperationByDeviceType_EnglishNameAndAndOperation_Name(String deviceType,String OperationName);
+
 }

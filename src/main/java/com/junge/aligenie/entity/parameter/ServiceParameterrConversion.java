@@ -37,4 +37,14 @@ public class ServiceParameterrConversion {
     @ManyToOne
     @JoinColumn(name = "service_parameter_id")
     private ServiceParameter serviceParameter;
+
+    @Override
+    public String toString() {
+        return "ServiceParameterrConversion{" +
+                "id='" + id + '\'' +
+                ", aliParameterAttr='" + aliParameterAttr + '\'' +
+                ", aliParameterValue='" + aliParameterValue + '\'' +
+                ", hassParameter='" + hassParameter + '\'' +
+                '}';
+    }
 }

@@ -42,4 +42,14 @@ public class ServiceParameter {
     @ManyToOne
     @JoinColumn(name = "device_type_operation_id")
     private DeviceTypeOperation deviceTypeOperation;
+
+    @Override
+    public String toString() {
+        return "ServiceParameter{" +
+                "id='" + id + '\'' +
+                ", parameterName='" + parameterName + '\'' +
+                ", isConversion='" + isConversion + '\'' +
+                ", serviceParameterrConversions=" + serviceParameterrConversions +
+                '}';
+    }
 }

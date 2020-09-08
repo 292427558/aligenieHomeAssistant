@@ -9,6 +9,7 @@ import com.junge.aligenie.entity.parameter.ServiceParameterrConversion;
 import com.junge.aligenie.repository.DeviceTypeOperationRepository;
 import com.junge.aligenie.repository.DeviceTypeRepository;
 import com.junge.aligenie.repository.OperationRepository;
+import com.junge.aligenie.service.DeviceTypeOperationService;
 import com.junge.aligenie.service.DiscoverDeviceService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -43,6 +44,9 @@ public class AligenieHomeassistantApplicationTests {
 
     @Autowired
     OperationRepository operationRepository;
+
+    @Autowired
+    DeviceTypeOperationService deviceTypeOperationService;
 
     @Test
     public void getDiscoverResult() {
@@ -123,5 +127,12 @@ public class AligenieHomeassistantApplicationTests {
         deviceTypeOperation.setServiceParameters(Collections.singletonList(serviceParameter));
         //保存  级联保存
         DeviceTypeOperation save = deviceTypeOperationRepository.save(deviceTypeOperation);
+    }
+
+
+    @Test
+    public  void testQuery(){
+        DeviceTypeOperation deviceTypeOperation = deviceTypeOperationService.getDeviceTypeOperation("aircondition", "SetMode");
+        System.out.println(deviceTypeOperation);
     }
 }
