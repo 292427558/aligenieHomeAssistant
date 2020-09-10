@@ -187,6 +187,11 @@ public class AliDiscoverResult extends Result{
                 private String name;
                 private String value;
 
+                public PropertiesBean(String name, String value) {
+                    this.name = name;
+                    this.value = value;
+                }
+
                 public String getName() {
                     return name;
                 }
