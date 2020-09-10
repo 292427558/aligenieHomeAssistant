@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +85,9 @@ public class DiscoverDeviceServiceImpl implements DiscoverDeviceService {
                 //品牌和型号可为空
                 device.setBrand(StringUtils.isEmpty(device_brand)?"customize":device_brand);
                 device.setModel(StringUtils.isEmpty(device_model)?"customize":device_model);
+                List<AliDiscoverResult.PayloadBean.DevicesBean.PropertiesBean>  propertiesBeans = new ArrayList<>();
+                propertiesBeans.add(new AliDiscoverResult.PayloadBean.DevicesBean.PropertiesBean("onlinestate","online"));
+                device.setProperties(propertiesBeans);
                 devices.add(device);
             }
 
@@ -101,6 +105,9 @@ public class DiscoverDeviceServiceImpl implements DiscoverDeviceService {
             device.setModel(repositoryDevice.getModel());
             device.setDeviceType(repositoryDevice.getDeviceType());
             device.setZone(repositoryDevice.getDeviceZone());
+            List<AliDiscoverResult.PayloadBean.DevicesBean.PropertiesBean>  propertiesBeans = new ArrayList<>();
+            propertiesBeans.add(new AliDiscoverResult.PayloadBean.DevicesBean.PropertiesBean("onlinestate","online"));
+            device.setProperties(propertiesBeans);
             devices.add(device);
         }
         return devices;
