@@ -55,20 +55,8 @@ public class DeviceQueryServiceImpl implements DeviceQueryService {
                     }
                     break;
                 case "Query":
-                    //查询温度
-                    if("aircondition".equals(deviceType)){
-                        //空调--貌似不支持查询
-
-                    }else if("airpurifier".equals(deviceType)){
-                        //空气净化器
-                        ArrayList<String> attrs = new ArrayList<>();
-                        attrs.add("temperature");
-                        attrs.add("humidity");
-                        attrs.add("pm2.5");
-                        Result result = homeAssistantApi.queryAttributes(aliRequest, deviceId, attrs,"states/"+deviceId, "QueryResponse");
-                        return result;
-                    }
-                    break;
+                    Result result = homeAssistantApi.queryAttributes(aliRequest, deviceId,"states/"+deviceId, "QueryResponse");
+                    return result;
                 default:
                     return null;
             }

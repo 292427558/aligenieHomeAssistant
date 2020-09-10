@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -233,6 +234,50 @@ public class HomeAssistantApiImpl implements HomeAssistantApi {
                 properties.add(new AliStateResult.PropertiesBean(attr,attributeRes));
             }
             return  aliStateResult;
+        }
+        //返回错误消息
+        AliControllResult aliControllResult = new AliControllResult();
+        aliControllResult.setHeader(new HeaderBean("AliGenie.Iot.Device.Control","ErrorResponse",aliRequest.getHeader().getMessageId(),1));
+        aliControllResult.getPayload().setDeviceId(deviceId).setErrorCode("DEVICE_NOT_SUPPORT_FUNCTION").setMessage("device not support");
+        return  aliControllResult;
+    }
+
+    @Override
+    public Result queryAttributes(AliRequest aliRequest, String deviceId,String apiDomain, String reponseName) {
+        HttpEntity<String> requestEntity = RestHomeAssistantUtils.getHttpEntity(null);
+        ResponseEntity<String> response = restTemplate.exchange(RestHomeAssistantUtils.getUrl() +apiDomain, HttpMethod.GET, requestEntity, String.class);
+        if(response.getStatusCode().equals(HttpStatus.OK)){
+            String json = response.getBody();
+            JSONObject jsonObject = JSON.parseObject(json);
+            JSONObject attributes = jsonObject.getJSONObject("attributes");
+            JSONObject query = attributes.getJSONObject("query");
+            if(query!=null){
+                //组装数据返回
+                AliStateResult aliStateResult = new AliStateResult();
+                aliStateResult.setHeader(new HeaderBean("AliGenie.Iot.Device.Query",reponseName,aliRequest.getHeader().getMessageId(),1));
+                aliStateResult.getPayload().setDeviceId(deviceId);
+                List<AliStateResult.PropertiesBean> properties = aliStateResult.getProperties();
+
+                //从哪个位置获取参数 state 只能获取一个 attributes 可以获取多个
+                String position = query.getString("position");
+                JSONObject querymap = query.getJSONObject("querymap");
+                for (String key : querymap.keySet()) {
+                    if("state".equals(position)){
+                        //从state获取值 只能取一个
+                        String aliAttr = querymap.getString(key);
+                        String attributeRes = jsonObject.getString("state");
+                        properties.add(new AliStateResult.PropertiesBean(aliAttr,attributeRes));
+                        break;
+                    }else if("attributes".equals(position)){
+                        //从属性中获取
+                        String aliAttr = querymap.getString(key);
+                        String attributeRes = attributes.getString(key);
+                        properties.add(new AliStateResult.PropertiesBean(aliAttr,attributeRes));
+                    }
+                }
+                return  aliStateResult;
+            }
+
         }
         //返回错误消息
         AliControllResult aliControllResult = new AliControllResult();
