@@ -262,17 +262,27 @@ public class HomeAssistantApiImpl implements HomeAssistantApi {
                 String position = query.getString("position");
                 JSONObject querymap = query.getJSONObject("querymap");
                 for (String key : querymap.keySet()) {
+                    String aliAttr = querymap.getString(key);
                     if("state".equals(position)){
                         //从state获取值 只能取一个
-                        String aliAttr = querymap.getString(key);
-                        String attributeRes = jsonObject.getString("state");
-                        properties.add(new AliStateResult.PropertiesBean(aliAttr,attributeRes));
-                        break;
+                        if(key.equals("state")){
+                            String attributeRes = jsonObject.getString("state");
+                            properties.add(new AliStateResult.PropertiesBean(aliAttr,attributeRes));
+                            break;
+                        }
                     }else if("attributes".equals(position)){
                         //从属性中获取
-                        String aliAttr = querymap.getString(key);
                         String attributeRes = attributes.getString(key);
                         properties.add(new AliStateResult.PropertiesBean(aliAttr,attributeRes));
+                    }else if("all".equals(position)){
+                        //从属性和state中获取
+                        if(key.equals("state")){
+                            String attributeRes = jsonObject.getString("state");
+                            properties.add(new AliStateResult.PropertiesBean(aliAttr,attributeRes));
+                        }else {
+                            String attributeRes = attributes.getString(key);
+                            properties.add(new AliStateResult.PropertiesBean(aliAttr,attributeRes));
+                        }
                     }
                 }
                 return  aliStateResult;
