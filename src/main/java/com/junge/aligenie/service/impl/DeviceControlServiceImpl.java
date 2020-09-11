@@ -47,8 +47,13 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                         return aliControllResult;
                     }
                     if("light".equals(deviceType)){
-                        //开关
+                        //灯
                         aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_on","TurnOnResponse");
+                        return aliControllResult;
+                    }
+                    if("smart-gating".equals(deviceType)||"curtain".equals(deviceType)){
+                        //门锁  窗帘
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/cover/open_cover","TurnOnResponse");
                         return aliControllResult;
                     }
                     break;
@@ -70,8 +75,13 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                         return aliControllResult;
                     }
                     if("light".equals(deviceType)){
-                        //开关
+                        //灯
                         aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_off","TurnOffResponse");
+                        return aliControllResult;
+                    }
+                    if("smart-gating".equals(deviceType)||"curtain".equals(deviceType)){
+                        //门锁  窗帘
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/cover/close_cover","TurnOffResponse");
                         return aliControllResult;
                     }
                     break;
