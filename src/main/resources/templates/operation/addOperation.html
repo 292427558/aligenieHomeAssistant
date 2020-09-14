@@ -22,75 +22,79 @@
     <div class="row">
         <hr/>
     </div>
-    <div class="row">
-        <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">新增操作</h4>
-            <form class="needs-validation" method="post" action="/setting/operation" novalidate>
 
-                <div class="mb-3">
-                    <label for="name">操作代码</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="如：TurnOn" required>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        请输入操作代码
-                    </div>
+        <h4 class="mb-3">新增操作</h4>
+        <form class="form-horizontal"  method="post" action="/setting/operation" novalidate>
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">操作代码</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="如：TurnOn"  check-type="mail required">
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="friendlyName">操作名称</label>
-                    <input type="text" class="form-control" id="friendlyName" name="friendlyName" placeholder="如：设备打开" required>
-                    <div class="invalid-feedback">
-                        请输入操作名称
-                    </div>
+            <div class="form-group">
+                <label for="friendlyName" class="col-sm-2 control-label">操作名称</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="friendlyName" name="friendlyName" placeholder="如：设备打开"  check-type="mail required">
                 </div>
+            </div>
+            <hr class="mb-4">
 
 
-                <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
-            </form>
-        </div>
+            <label  class="col-sm-2 control-label"></label>
+            <div class="col-sm-6">
+                <button class="btn btn-primary  btn-block" type="submit">新增</button>
+            </div>
+        </form>
+
     </div>
-
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017-2018 Company Name</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
-    </footer>
+    <hr class="mb-4">
+    <hr class="mb-4">
+<!--    <footer class="my-5 pt-5 text-muted text-center text-small">-->
+<!--        <p class="mb-1">&copy; 2017-2018 Company Name</p>-->
+<!--        <ul class="list-inline">-->
+<!--            <li class="list-inline-item"><a href="#">Privacy</a></li>-->
+<!--            <li class="list-inline-item"><a href="#">Terms</a></li>-->
+<!--            <li class="list-inline-item"><a href="#">Support</a></li>-->
+<!--        </ul>-->
+<!--    </footer>-->
 </div>
 
-<!--<script>window.jQuery || document.write('')</script>-->
-<script src="/js/vendor/jquery-slim.min.js"></script>
-<script src="/js/vendor/popper.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/vendor/holder.min.js"></script>
+
 <script src="/js/jquery-1.9.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-validator/0.4.0/js/bootstrapValidator.min.js"></script>
+<link src="https://cdn.bootcdn.net/ajax/libs/bootstrap-validator/0.4.0/css/bootstrapValidator.min.css" rel="stylesheet"></link>
+
 <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }else{
-                        event.preventDefault();
-                        event.stopPropagation();
-                        add($(form).serialize());
+    $(function () {
+        $('form').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                name: {
+                    message: '操作代码不能为空',
+                    validators: {
+                        notEmpty: {
+                            message: '操作代码不能为空'
+                        }
                     }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
+                },
+                friendlyName: {
+                    validators: {
+                        notEmpty: {
+                            message: '操作名称不能为空'
+                        }
+                    }
+                }
+            }
+        });
+    });
 
     function add(datas) {
         $.ajax({

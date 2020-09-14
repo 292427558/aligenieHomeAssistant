@@ -1,37 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>操作列表</title>
-    <!-- CSS 部分 -->
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!-- Bootstrap table -->
-    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
-<!--    <script src="/js/jquery-1.9.1.min.js"></script>-->
-    <script src="/js/jquery-2.1.4.min.js"></script>
-<!--    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- bootstrap-table -->
-    <script src="/js/bootstrap-table.min.js"></script>
-    <script src="/js/bootstrap-table-zh-CN.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>设备类别参数</title>
+
+
+    <!-- Custom styles for this template -->
+<!--    <link href="/css/form-validation.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="/css/bootstrap.min.css" >-->
+<!--    &lt;!&ndash; Bootstrap table &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="/css/bootstrap-table.min.css" >-->
+<!--    &lt;!&ndash;    <script src="/js/jquery-1.9.1.min.js"></script>&ndash;&gt;-->
+<!--    <script src="/js/jquery-2.1.4.min.js"></script>-->
+<!--    &lt;!&ndash;    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>&ndash;&gt;-->
+<!--    <script src="/js/bootstrap.min.js"></script>-->
+
 </head>
-<body>
-<div class="row">
-    <hr/>
-</div>
-<div style="margin: 50px ">
-    <h1>HomeAssistant设备列表</h1>
+
+<body class="bg-light">
+
+<div class="container">
+    <div class="row">
+        <hr/>
+    </div>
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">新增设备类别参数</h4>
+            <form class="needs-validation" method="post" action="/setting/operation" novalidate>
+
+
+                <div class="mb-3">
+                    <label for="deviceType">设备类型</label>
+                    <select class="form-control" name="deviceType" id="deviceType">
+                    </select>
+                    <div class="invalid-feedback" style="width: 100%;">
+                        请选择设备类型
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="brand">设备品牌</label>
+                    <input type="text" class="form-control" id="brand" name="brand" placeholder="如：小米">
+                    <div class="invalid-feedback">
+                        请输入设备品牌
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="model">设备型号</label>
+                    <input type="text" class="form-control" id="model" name="model" placeholder="如：zhimi.airpurifier.v3">
+                    <div class="invalid-feedback">
+                        请输入设备型号
+                    </div>
+                </div>
+
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
+            </form>
+        </div>
+    </div>
+<hr/>
+<hr/>
     <table class="table table-striped" id="table">
         <thead style="background-color:#ccc;">
         <!--<table id="enterpriseProduct_tab" class="table table-hover"></table>-->
     </table>
-</div>
-</body>
-<!-- JS 部分 -->
-<!-- jQuery 3 -->
 
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+
+
+<link href="/css/form-validation.css" rel="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="/css/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
 <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }else{
+                        event.preventDefault();
+                        event.stopPropagation();
+                        add($(form).serialize());
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+
+    })();
+
+    $(document).ready(function () {
+
+        $.ajax({
+            type:"get",
+            url:'/setting/deviceTypes',
+            success: function (data) {
+                enterprise_productlist = data;
+                var html = '';
+                $.each(data, function(key,val) {
+                    html += '<option  value="'+val.englishName+'">'+val.name+'</option>';
+
+                });
+                $('#deviceType').append(html);
+            },
+            error:function(){}
+        });
+    })
+
+    function add(datas) {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/device" ,//url
+            data: datas,
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+    }
+
+
+
     var $table;
     $(function(){
         //记录页面bootstrap-table全局变量$table，方便应用
@@ -63,7 +192,7 @@
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
-            detailView: false,                  //是否显示父子表
+            detailView: true,                  //是否显示父子表
             //得到查询的参数
             queryParams:qua_queryParams,
             columns:[
@@ -77,8 +206,8 @@
                 // },
                 {
                     title:'id',
-                    field:'id',
-                    visible:false
+                    field:'id'
+                    // visible:false
                 },
                 {
                     title:'实体id',
@@ -169,5 +298,7 @@
 
         $('#table').bootstrapTable('refresh', {url: "/setting/deviceLists",pageNumber:0});
     }
+
 </script>
+</body>
 </html>

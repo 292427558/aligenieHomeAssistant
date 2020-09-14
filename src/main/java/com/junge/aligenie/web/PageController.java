@@ -20,6 +20,11 @@ public class PageController {
         return "main";
     }
 
+    @RequestMapping("/main2")
+    public String main2(){
+        return "main2";
+    }
+
     @RequestMapping("/page/{type}/{path}")
     public String topage(@PathVariable("path") String path,@PathVariable("type") String type){
         return type+"/"+path;

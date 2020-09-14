@@ -1,0 +1,148 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='css/style.css'>
+    <script src="/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src='/js/bootstrap.min.js'></script>
+
+</head>
+<body>
+
+
+<div id="wrapper" class="toggled">
+    <div class="" style="display: block;"></div>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+        <ul class="nav sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    设备配置
+                </a>
+            </li>
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-home"></i> Home</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-folder"></i> Page one</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-file-o"></i> Second page</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-cog"></i> Third page</a>-->
+<!--            </li>-->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i> 天猫操作设置 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">天猫操作设置</li>
+                    <li><a href="#" onclick="getPages('operation')">新增操作</a></li>
+                    <li><a href="#" onclick="getPages('operations')">操作列表</a></li>
+<!--                    <li><a href="#">Something else here</a></li>-->
+<!--                    <li><a href="#">Separated link</a></li>-->
+<!--                    <li><a href="#"s>One more separated link</a></li>-->
+                </ul>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i> 设备设置 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">设备设置</li>
+                    <li><a href="#" onclick="getPages('device')">新增设备</a></li>
+                    <li><a href="#" onclick="getPages('devices')">设备列表</a></li>
+                    <!--                    <li><a href="#">Something else here</a></li>-->
+                    <!--                    <li><a href="#">Separated link</a></li>-->
+                    <!--                    <li><a href="#"s>One more separated link</a></li>-->
+                </ul>
+            </li>
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-dropbox"></i> Page 5</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-twitter"></i> Last page</a>-->
+<!--            </li>-->
+        </ul>
+    </nav>
+
+
+    <div id="page-content-wrapper">
+<!--        <button type="button" class="hamburger animated fadeInLeft is-open" data-toggle="offcanvas">-->
+<!--            <span class="hamb-top"></span>-->
+<!--            <span class="hamb-middle"></span>-->
+<!--            <span class="hamb-bottom"></span>-->
+<!--        </button>-->
+        <iframe id="frame" src="/page/operation/addOperation" align="center" width="90%" height="900px"
+                frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" ></iframe>
+    </div>
+
+</div>
+</body>
+</div>
+<script th:inline="javascript">
+    //获取项目名
+    /*<![CDATA[*/
+    var context = /*[[@{/}]]*/ '';
+    /*]]>*/
+    $(document).ready(function() {
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+            isClosed = false;
+        trigger.click(function() {
+            overlay.show();
+            hamburger_cross();
+        });
+        function hamburger_cross() {
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.hide();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+        $('[data-toggle="offcanvas"]').click(function() {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
+
+
+    function getPages(menuName) {
+
+        $(".nav-link").removeClass("active");
+        if(menuName=='operation'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/operation/addOperation");
+                $(".nav-link.operation").addClass("active")
+            })
+        }else if(menuName=='operations'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/operation/operations");
+                $(".nav-link.operations").addClass("active")
+            })
+        }else if(menuName=='device'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/device/addDevice");
+                $(".nav-link.device").addClass("active")
+            })
+        }else if(menuName=='devices'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/device/devices");
+                $(".nav-link.devices").addClass("active")
+            })
+        }else if(menuName=='deviceTypeParameter'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/devicetype/deviceTypeParameter");
+                $(".nav-link.deviceTypeParameter").addClass("active")
+            })
+        }
+
+
+    }
+</script>
+</html>

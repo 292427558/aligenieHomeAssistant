@@ -14,16 +14,19 @@
     <script src="/js/bootstrap.min.js"></script>
     <!-- bootstrap-table -->
     <script src="/js/bootstrap-table.min.js"></script>
+    <script src="/js/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
 <div class="row">
     <hr/>
 </div>
-<h1>天猫操作列表</h1>
-<table class="table table-striped" id="table">
-    <thead style="background-color:#ccc;">
-    <!--<table id="enterpriseProduct_tab" class="table table-hover"></table>-->
-</table>
+<div style="margin: 50px ">
+    <h1>天猫操作列表</h1>
+    <table class="table table-striped" id="table">
+        <thead style="background-color:#ccc;">
+        <!--<table id="enterpriseProduct_tab" class="table table-hover"></table>-->
+    </table>
+</div>
 </body>
 <!-- JS 部分 -->
 <!-- jQuery 3 -->
@@ -53,7 +56,7 @@
             search: false,                      //是否显示表格搜索
             strictSearch: true,
             showColumns: false,                  //是否显示所有的列（选择显示的列）
-            showRefresh: false,                  //是否显示刷新按钮
+            showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
             //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
@@ -61,6 +64,8 @@
             showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                  //是否显示父子表
+            // smartDisplay:false,
+            // paginationDetailHAlign:"right",
             //得到查询的参数
             queryParams:qua_queryParams,
             columns:[
@@ -79,17 +84,20 @@
                 },
                 {
                     title:'操作代码',
-                    field:'name'
+                    field:'name',
+                    // width: 200
                 },
                 {
                     title:'操作名称',
                     field:'friendlyName',
+                    // width: 200
                     // formatter:certificateStatus //失效状态判断
                 },
                 {
                     title:'操作',
                     field:'Button',
                     align:'center',
+
                     // events: operateEvents,//事件
                     formatter:addDel //添加按钮
                 }
