@@ -22,89 +22,62 @@
     <div class="row">
         <hr/>
     </div>
-    <div class="row">
-        <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">新增HomeAssistant设备</h4>
-            <form class="needs-validation" method="post" action="/setting/operation" novalidate>
+    <h4 class="mb-3">新增HomeAssistant设备</h4>
+    <form class="form-horizontal" method="post" action="/setting/device" >
 
-<!--                <div class="mb-3">-->
-<!--                    <label for="entityId">实体id</label>-->
-<!--                    <input type="text" class="form-control" id="entityId" name="entityId" placeholder="如：fan.xiao_mi_kong_qi_jing_hua_qi" required>-->
-<!--                    <div class="invalid-feedback" style="width: 100%;">-->
-<!--                        请输入实体id-->
-<!--                    </div>-->
-<!--                </div>-->
-
-                <div class="mb-3">
-                    <label for="entityId">实体id</label>
-                    <select class="form-control" name="entityId" id="entityId">
-                    </select>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        请选择实体id
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="deviceName">设备名称</label>
-                    <input type="text" class="form-control" id="deviceName" name="deviceName" placeholder="如：airpurifier" required>
-                    <div class="invalid-feedback">
-                        请输入设备名称
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="deviceZone">设备区域</label>
-                    <input type="text" class="form-control" id="deviceZone" name="deviceZone" placeholder="如：主卧:需和tmall的支持列表一致">
-                    <div class="invalid-feedback">
-                        请输入设备品牌
-                    </div>
-                </div>
-<!--                <div class="mb-3">-->
-<!--                    <label for="deviceType">设备类型</label>-->
-<!--                    <input type="text" class="form-control" id="deviceType" name="deviceType" placeholder="如：设备打开" required>-->
-<!--                    <div class="invalid-feedback">-->
-<!--                        请输入设备类型-->
-<!--                    </div>-->
-<!--                </div>-->
-                <div class="mb-3">
-                    <label for="deviceType">设备类型</label>
-                    <select class="form-control" name="deviceType" id="deviceType">
-                    </select>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        请选择设备类型
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="brand">设备品牌</label>
-                    <input type="text" class="form-control" id="brand" name="brand" placeholder="如：小米">
-                    <div class="invalid-feedback">
-                        请输入设备品牌
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="model">设备型号</label>
-                    <input type="text" class="form-control" id="model" name="model" placeholder="如：zhimi.airpurifier.v3">
-                    <div class="invalid-feedback">
-                        请输入设备型号
-                    </div>
-                </div>
-
-
-                <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
-            </form>
+        <div class="form-group">
+            <label for="entityId" class="col-sm-2 control-label">实体id</label>
+            <div class="col-sm-6">
+                <select type="text" class="form-control" id="entityId" name="entityId"   check-type="mail required"/>
+            </div>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="deviceName" class="col-sm-2 control-label">设备名称</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="deviceName" name="deviceName" placeholder="如：airpurifier"  check-type="mail required">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="deviceZone" class="col-sm-2 control-label">设备区域</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="deviceZone" name="deviceZone" placeholder="如：主卧:需和tmall的支持列表一致">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="deviceType" class="col-sm-2 control-label">设备类型</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="deviceType" id="deviceType">
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="brand" class="col-sm-2 control-label">设备品牌</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="brand" name="brand" placeholder="如：小米">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="model" class="col-sm-2 control-label">设备型号</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="model" name="model" placeholder="如：zhimi.airpurifier.v3">
+            </div>
+        </div>
 
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017-2018 Company Name</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
-    </footer>
+
+
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
+    </form>
+
+
+<!--    <footer class="my-5 pt-5 text-muted text-center text-small">-->
+<!--        <p class="mb-1">&copy; 2017-2018 Company Name</p>-->
+<!--        <ul class="list-inline">-->
+<!--            <li class="list-inline-item"><a href="#">Privacy</a></li>-->
+<!--            <li class="list-inline-item"><a href="#">Terms</a></li>-->
+<!--            <li class="list-inline-item"><a href="#">Support</a></li>-->
+<!--        </ul>-->
+<!--    </footer>-->
 </div>
 
 <!--<script>window.jQuery || document.write('')</script>-->
@@ -115,30 +88,62 @@
 <script src="/js/jquery-1.9.1.min.js"></script>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }else{
-                        event.preventDefault();
-                        event.stopPropagation();
-                        add($(form).serialize());
+    $(function () {
+        $('form').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                entityId: {
+                    message: '请选择实体id',
+                    validators: {
+                        notEmpty: {
+                            message: '实体id不可为空'
+                        }
                     }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-
-    })();
+                },
+                deviceName: {
+                    validators: {
+                        notEmpty: {
+                            message: '操作名称不能为空'
+                        }
+                    }
+                }
+                ,
+                deviceZone: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入设备区域'
+                        }
+                    }
+                },
+                deviceType: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择设备类型'
+                        }
+                    }
+                },
+                brand: {
+                    validators: {
+                        notEmpty: {
+                            message: '操作名称不能为空'
+                        }
+                    }
+                },
+                model: {
+                    validators: {
+                        notEmpty: {
+                            message: '操作名称不能为空'
+                        }
+                    }
+                }
+            }
+        });
+    });
 
     $(document).ready(function () {
         $.ajax({

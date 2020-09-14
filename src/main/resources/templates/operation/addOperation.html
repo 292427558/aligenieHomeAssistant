@@ -24,7 +24,7 @@
     </div>
 
         <h4 class="mb-3">新增操作</h4>
-        <form class="form-horizontal"  method="post" action="/setting/operation" novalidate>
+        <form class="form-horizontal"  method="post" action="/setting/operation" >
 
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">操作代码</label>
@@ -42,11 +42,12 @@
             <hr class="mb-4">
 
 
-            <label  class="col-sm-2 control-label"></label>
-            <div class="col-sm-6">
-                <button class="btn btn-primary  btn-block" type="submit">新增</button>
-            </div>
         </form>
+    <label  class="col-sm-2 control-label"></label>
+    <div class="col-sm-6">
+<!--        <button class="btn btn-primary  btn-block" type="submit">新增</button>-->
+        <button class="btn btn-primary  btn-block" onclick="submitForm()">新增</button>
+    </div>
 
     </div>
     <hr class="mb-4">
@@ -117,6 +118,9 @@
         });
     }
 
+    function submitForm() {
+
+    }
 
 </script>
 </body>
