@@ -122,7 +122,7 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                         return aliControllResult;
                     }
                     break;
-                case "setPosition":
+                case "SetPosition":
                     //设置位置
                     if("curtain".equals(deviceType)){
                         //窗帘
