@@ -25,102 +25,37 @@
 <body class="bg-light">
 
 <div class="container">
-    <div class="row">
-        <hr/>
+    <div style="margin: 50px ">
+        <h1>天猫支持设备类别列表</h1>
+        <table class="table table-striped" id="table">
+            <thead style="background-color:#ccc;">
+            <!--<table id="enterpriseProduct_tab" class="table table-hover"></table>-->
+        </table>
     </div>
-    <div class="row">
-        <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">新增设备类别参数</h4>
-            <form class="needs-validation" method="post" action="/setting/operation" novalidate>
-
-
-                <div class="mb-3">
-                    <label for="deviceType">设备类型</label>
-                    <select class="form-control" name="deviceType" id="deviceType">
-                    </select>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        请选择设备类型
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="brand">设备品牌</label>
-                    <input type="text" class="form-control" id="brand" name="brand" placeholder="如：小米">
-                    <div class="invalid-feedback">
-                        请输入设备品牌
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="model">设备型号</label>
-                    <input type="text" class="form-control" id="model" name="model" placeholder="如：zhimi.airpurifier.v3">
-                    <div class="invalid-feedback">
-                        请输入设备型号
-                    </div>
-                </div>
-
-
-                <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
-            </form>
-        </div>
-    </div>
-<hr/>
-<hr/>
-    <table class="table table-striped" id="table">
-        <thead style="background-color:#ccc;">
-        <!--<table id="enterpriseProduct_tab" class="table table-hover"></table>-->
-    </table>
-
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017-2018 Company Name</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
-    </footer>
+<!--    <footer class="my-5 pt-5 text-muted text-center text-small">-->
+<!--        <p class="mb-1">&copy; 2017-2018 Company Name</p>-->
+<!--        <ul class="list-inline">-->
+<!--            <li class="list-inline-item"><a href="#">Privacy</a></li>-->
+<!--            <li class="list-inline-item"><a href="#">Terms</a></li>-->
+<!--            <li class="list-inline-item"><a href="#">Support</a></li>-->
+<!--        </ul>-->
+<!--    </footer>-->
 </div>
 
 
 <link href="/css/form-validation.css" rel="stylesheet">
-<!-- Latest compiled and minified CSS -->
 <script src="/js/jquery-2.1.4.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="/css/bootstrap-table.min.css" rel="stylesheet">
-
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap-table-zh-CN.min.js"></script>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
 
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
 
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }else{
-                        event.preventDefault();
-                        event.stopPropagation();
-                        add($(form).serialize());
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-
-    })();
-
-    $(document).ready(function () {
+   /* $(document).ready(function () {
 
         $.ajax({
             type:"get",
@@ -137,8 +72,8 @@
             error:function(){}
         });
     })
-
-    function add(datas) {
+*/
+    /*function add(datas) {
         $.ajax({
             //几个参数需要注意一下
             type: "POST",//方法类型
@@ -157,14 +92,14 @@
                 alert("异常！");
             }
         });
-    }
+    }*/
 
 
 
     var $table;
     $(function(){
         //记录页面bootstrap-table全局变量$table，方便应用
-        var queryUrl = '/setting/deviceLists'
+        var queryUrl = '/setting/deviceTypesPage'
         $table = $('#table').bootstrapTable({
             url: queryUrl,                      //请求后台的URL（*）
             method: 'GET',                      //请求方式（*）
@@ -206,41 +141,25 @@
                 // },
                 {
                     title:'id',
-                    field:'id'
-                    // visible:false
+                    field:'id',
+                    visible:false
                 },
                 {
-                    title:'实体id',
-                    field:'entityId'
+                    title:'设备类别',
+                    field:'name'
                 },
                 {
-                    title:'设备名称',
-                    field:'deviceName'
+                    title:'设备类别代码',
+                    field:'englishName'
                     // formatter:certificateStatus //失效状态判断
-                },
-                {
-                    title:'设备区域',
-                    field:'deviceZone'
-                },
-                {
-                    title:'设备类型',
-                    field:'deviceType'
-                },
-                {
-                    title:'设备品牌',
-                    field:'brand'
-                },
-                {
-                    title:'设备型号',
-                    field:'model'
-                },
-                {
-                    title:'操作',
-                    field:'Button',
-                    align:'center',
-                    // events: operateEvents,//事件
-                    formatter:addDel //添加按钮
                 }
+                // {
+                //     title:'操作',
+                //     field:'Button',
+                //     align:'center',
+                //     // events: operateEvents,//事件
+                //     formatter:addDel //添加按钮
+                // }
             ],
             responseHandler:function(res){
                 return{"rows": res.content, "total": res.totalElements};

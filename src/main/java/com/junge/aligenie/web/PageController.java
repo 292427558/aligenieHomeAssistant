@@ -22,7 +22,7 @@ public class PageController {
 
     @RequestMapping("/main2")
     public String main2(){
-        return "main2";
+        return "main";
     }
 
     @RequestMapping("/page/{type}/{path}")

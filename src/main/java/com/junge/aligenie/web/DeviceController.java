@@ -85,22 +85,4 @@ public class DeviceController {
         return  hassEntityId;
     }
 
-
-    /**
-     * homeAssistant的entityid列表
-     * @Author LiuJun
-     * @Date 2020/8/13 16:53
-     * @return java.util.List<java.lang.String>
-     **/
-    @GetMapping("/deviceTypes")
-    @ResponseBody
-    public List<DeviceType> getDeviceTypes(){
-        List<DeviceType> all = deviceTypeRepository.findAll();
-        Collections.sort(all,(e1,e2) ->{
-            //根据语音环境获取排序接口
-            Comparator<Object> com = Collator.getInstance(java.util.Locale.CHINA);
-            return com.compare(e1.getName(),e2.getName());
-        });
-        return  all;
-    }
 }

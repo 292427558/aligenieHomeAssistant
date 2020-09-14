@@ -3,94 +3,102 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>Dashboard Template · Bootstrap</title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='css/style.css'>
+    <script src="/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src='/js/bootstrap.min.js'></script>
 
-
-    <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="sidebar-sticky pt-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link operation active" onclick="getPages('operation')">
-                            <span data-feather="home"></span>
-                            操作管理 <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link operations" onclick="getPages('operations')">
-                            <span data-feather="file"></span>
-                            操作列表
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link device" onclick="getPages('device')">
-                            <span data-feather="shopping-cart"></span>
-                            新增设备
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link devices" onclick="getPages('devices')">
-                            <span data-feather="shopping-cart"></span>
-                            设备列表
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link deviceTypeParameter" onclick="getPages('deviceTypeParameter')">
-                            <span data-feather="shopping-cart"></span>
-                            类别参数
-                        </a>
-                    </li>
+
+<div id="wrapper" class="toggled">
+    <div class="" style="display: block;"></div>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+        <ul class="nav sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    设备配置
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i> 天猫操作设置 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">天猫操作设置</li>
+                    <li><a href="#" onclick="getPages('operation')">新增操作</a></li>
+                    <li><a href="#" onclick="getPages('operations')">操作列表</a></li>
                 </ul>
-            </div>
-        </nav>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i>设备设置 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">设备设置</li>
+                    <li><a href="#" onclick="getPages('device')">新增设备</a></li>
+                    <li><a href="#" onclick="getPages('devices')">设备列表</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i>设备类别 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">天猫设备类别设置</li>
+<!--                    <li><a href="#" onclick="getPages('device')">新增设备</a></li>-->
+                    <li><a href="#" onclick="getPages('deviceTypeParameter')">设备类别列表</a></li>
+                </ul>
+            </li>
+<!--            <li>-->
+<!--                <a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>-->
+<!--            </li>-->
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        </ul>
+    </nav>
 
-            <iframe id="frame" src="/page/operation/addOperation" align="center" width="80%" height="900px"
-                    frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" ></iframe>
 
-        </main>
+    <div id="page-content-wrapper">
+<!--        <button type="button" class="hamburger animated fadeInLeft is-open" data-toggle="offcanvas">-->
+<!--            <span class="hamb-top"></span>-->
+<!--            <span class="hamb-middle"></span>-->
+<!--            <span class="hamb-bottom"></span>-->
+<!--        </button>-->
+        <iframe id="frame" src="/page/operation/addOperation" align="center" width="90%" height="900px"
+                frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" ></iframe>
     </div>
+
 </div>
-<!--<script>window.jQuery || document.write('<script src="/js/vendor/jquery-slim.min.js"><\/script>')</script>-->
-<script src="/js/vendor/jquery-slim.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-<script src="/js/jquery-1.9.1.min.js"></script>
+</body>
+</div>
 <script th:inline="javascript">
     //获取项目名
     /*<![CDATA[*/
     var context = /*[[@{/}]]*/ '';
     /*]]>*/
+    $(document).ready(function() {
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+            isClosed = false;
+        trigger.click(function() {
+            overlay.show();
+            hamburger_cross();
+        });
+        function hamburger_cross() {
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.hide();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+        $('[data-toggle="offcanvas"]').click(function() {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
+
+
     function getPages(menuName) {
 
         $(".nav-link").removeClass("active");
