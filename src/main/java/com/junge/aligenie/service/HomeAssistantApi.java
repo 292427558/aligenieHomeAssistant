@@ -47,4 +47,7 @@ public interface HomeAssistantApi {
     //查询属性 根据homeassistant配置的返回所有属性
     Result queryAttributes(AliRequest aliRequest, String deviceId, String apiDomain, String reponseName);
 
+    //设置设备位置
+    AliControllResult setDevicePosition(AliRequest aliRequest, String deviceId,String apiDomain,String reponseName);
+
 }

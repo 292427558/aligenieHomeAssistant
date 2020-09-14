@@ -310,6 +310,21 @@ public class HomeAssistantApiImpl implements HomeAssistantApi {
         return aliControllResult;
     }
 
+    @Override
+    public AliControllResult setDevicePosition(AliRequest aliRequest, String deviceId, String apiDomain, String reponseName) {
+        String position = aliRequest.getPayload().getValue();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("entity_id",deviceId);
+        jsonObject.put("position",position);
+        HttpEntity<String> requestEntity = RestHomeAssistantUtils.getHttpEntity(jsonObject.toString());
+        //异步执行homeassistant的接口 不然会超时
+        asycRestHomeAssistant.AsycExchangeRestApi(apiDomain,HttpMethod.POST,requestEntity);
+        AliControllResult aliControllResult = new AliControllResult();
+        aliControllResult.setHeader(new HeaderBean("AliGenie.Iot.Device.Control",reponseName,aliRequest.getHeader().getMessageId(),1));
+        aliControllResult.getPayload().setDeviceId(deviceId);
+        return aliControllResult;
+    }
+
     @Autowired
     RestTemplate restTemplate;
 

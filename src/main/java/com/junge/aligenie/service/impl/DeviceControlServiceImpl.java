@@ -122,6 +122,14 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                         return aliControllResult;
                     }
                     break;
+                case "setPosition":
+                    //设置位置
+                    if("curtain".equals(deviceType)){
+                        //窗帘
+                        aliControllResult = homeAssistantApi.setDevicePosition(aliRequest, deviceId,"services/cover/set_cover_position","setPositionResponse");
+                        return aliControllResult;
+                    }
+                    break;
                 default:
                     //返回错误消息
                     aliControllResult = new AliControllResult();
