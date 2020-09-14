@@ -61,8 +61,13 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                         return aliControllResult;
                     }
                     if("light".equals(deviceType)){
-                        //开关
+                        //灯
                         aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_on","TurnOnResponse");
+                        return aliControllResult;
+                    }
+                    if("smart-gating".equals(deviceType)||"curtain".equals(deviceType)){
+                        //门锁  窗帘
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/cover/open_cover","TurnOnResponse");
                         return aliControllResult;
                     }
                     break;
@@ -84,8 +89,13 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                         return aliControllResult;
                     }
                     if("light".equals(deviceType)){
-                        //开关
+                        //灯
                         aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_off","TurnOffResponse");
+                        return aliControllResult;
+                    }
+                    if("smart-gating".equals(deviceType)||"curtain".equals(deviceType)){
+                        //门锁  窗帘
+                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/cover/close_cover","TurnOffResponse");
                         return aliControllResult;
                     }
                     break;
@@ -123,6 +133,14 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                     if("aircondition".equals(deviceType)){
                         //空调
                         aliControllResult = homeAssistantApi.setDeviceTemperature(aliRequest, deviceId,"services/climate/set_temperature","SetTemperatureResponse");
+                        return aliControllResult;
+                    }
+                    break;
+                case "setPosition":
+                    //设置位置
+                    if("curtain".equals(deviceType)){
+                        //窗帘
+                        aliControllResult = homeAssistantApi.setDevicePosition(aliRequest, deviceId,"services/cover/set_cover_position","setPositionResponse");
                         return aliControllResult;
                     }
                     break;
