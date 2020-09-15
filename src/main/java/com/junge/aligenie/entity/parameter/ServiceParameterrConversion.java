@@ -1,5 +1,6 @@
 package com.junge.aligenie.entity.parameter;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -36,6 +37,7 @@ public class ServiceParameterrConversion {
 
     @ManyToOne
     @JoinColumn(name = "service_parameter_id")
+    @JsonManagedReference
     private ServiceParameter serviceParameter;
 
     @Override

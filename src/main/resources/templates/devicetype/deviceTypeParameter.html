@@ -116,7 +116,7 @@
             paginationLoop: true,
             pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
             pageSize: 10,                         //每页的记录行数（*）
-            pageList: [],         //可供选择的每页的行数（*）
+            pageList: [10,25],         //可供选择的每页的行数（*）
             search: false,                      //是否显示表格搜索
             strictSearch: true,
             showColumns: false,                  //是否显示所有的列（选择显示的列）
@@ -152,14 +152,14 @@
                     title:'设备类别代码',
                     field:'englishName'
                     // formatter:certificateStatus //失效状态判断
+                },
+                {
+                    title:'操作',
+                    field:'Button',
+                    align:'center',
+                    // events: operateEvents,//事件
+                    formatter:addOperation //添加按钮
                 }
-                // {
-                //     title:'操作',
-                //     field:'Button',
-                //     align:'center',
-                //     // events: operateEvents,//事件
-                //     formatter:addDel //添加按钮
-                // }
             ],
             responseHandler:function(res){
                 return{"rows": res.content, "total": res.totalElements};
@@ -173,8 +173,56 @@
             onDblClickRow: function (row, $element) {
 
             },
+            //注册加载子表的事件。注意下这里的三个参数！
+            onExpandRow: function (index, row, $detail) {
+                //oInit.InitSubTable(index, row, $detail);
+                InitSubTable(index, row, $detail);
+            }
         });
     })
+
+    //var oTable = new TableInit();
+    //初始化子表格
+    function InitSubTable (index, row, $detail) {
+        var parentid = row.id;
+        var cur_table = $detail.html('<table></table>').find('table');
+        $(cur_table).bootstrapTable({
+            url: '/setting/DeviceTypeOperations',
+            method: 'get',
+            queryParams: { id: parentid },
+            ajaxOptions: { id: parentid },
+            clickToSelect: true,
+            detailView: true,//父子表
+            uniqueId: "id",
+            pageSize: 10,
+            pageList: [10, 25],
+            columns: [{
+                checkbox: true
+            },{
+                field: 'operation.friendlyName',
+                title: '操作'
+            }, {
+                field: 'operation.name',
+                title: '操作代码'
+            },{
+                field: 'service',
+                title: '服务'
+            }, {
+                field: 'responseName',
+                title: '响应代码'
+            }
+            ],
+            //无线循环取子表，直到子表里面没有记录
+            onExpandRow: function (index, row, $Subdetail) {
+                //oInit.InitSubTable(index, row, $Subdetail);
+            }
+        });
+    };
+
+    function addOperation(value, row, index) {
+        var html = '<a href="javascript:void(0)" onclick="Operation(\''+row.id+'\')">新增操作</a>';
+        return html;
+    }
 
     function addDel(value, row, index) {
         var html = '<a href="javascript:void(0)" onclick="delOperation(\''+row.id+'\')">删除</a>';
@@ -191,6 +239,9 @@
         }
     }
 
+    function Operation() {
+        alert("hh")
+    }
 
     function delOperation(id) {
         $.ajax({
@@ -213,8 +264,8 @@
             }
         });
     }
-    function refresh(){
 
+    function refresh(){
         $('#table').bootstrapTable('refresh', {url: "/setting/deviceLists",pageNumber:0});
     }
 

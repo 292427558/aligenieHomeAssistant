@@ -3,6 +3,8 @@ package com.junge.aligenie.repository;
 import com.junge.aligenie.entity.DeviceTypeOperation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * mode Interface
  *
@@ -13,4 +15,5 @@ public interface DeviceTypeOperationRepository extends JpaRepository<DeviceTypeO
 
     DeviceTypeOperation getDeviceTypeOperationByDeviceType_EnglishNameAndAndOperation_Name(String deviceType,String OperationName);
 
+    List<DeviceTypeOperation> getDeviceTypeOperationsByDeviceType_Id(String id);
 }

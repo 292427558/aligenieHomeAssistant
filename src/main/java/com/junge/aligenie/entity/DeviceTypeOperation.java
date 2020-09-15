@@ -1,5 +1,6 @@
 package com.junge.aligenie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.junge.aligenie.entity.parameter.ServiceParameter;
 import com.junge.aligenie.entity.parameter.ServiceParameterrConversion;
 import lombok.Data;
@@ -53,5 +54,6 @@ public class DeviceTypeOperation {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)//指定抓取策略
     @JoinColumn(name = "device_type_operation_id",referencedColumnName = "id")
+    @JsonIgnore
     private List<ServiceParameter> serviceParameters;
 }
