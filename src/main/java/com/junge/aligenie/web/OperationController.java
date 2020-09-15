@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,4 +61,18 @@ public class OperationController {
         return new ReturnT(200,"删除成功");
     }
 
+
+    /**
+     * 操作下拉框数据
+     * @Author LiuJun
+     * @Date 2020/9/15 14:38
+     * @return java.util.List<com.junge.aligenie.entity.Operation>
+     **/
+    @GetMapping("/operations")
+    @ResponseBody
+    public List<Operation> getAllOperations(){
+        List<Operation> all = operationRepository.findAll();
+        Collections.sort(all,(e1,e2) -> e1.getName().compareTo(e2.getName()));
+        return  all;
+    }
 }

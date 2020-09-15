@@ -8,22 +8,43 @@
     <link rel="icon" href="../../../../favicon.ico">
 
     <title>设备类别参数</title>
-
-
-    <!-- Custom styles for this template -->
-<!--    <link href="/css/form-validation.css" rel="stylesheet">-->
-<!--    <link rel="stylesheet" href="/css/bootstrap.min.css" >-->
-<!--    &lt;!&ndash; Bootstrap table &ndash;&gt;-->
-<!--    <link rel="stylesheet" href="/css/bootstrap-table.min.css" >-->
-<!--    &lt;!&ndash;    <script src="/js/jquery-1.9.1.min.js"></script>&ndash;&gt;-->
-<!--    <script src="/js/jquery-2.1.4.min.js"></script>-->
-<!--    &lt;!&ndash;    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>&ndash;&gt;-->
-<!--    <script src="/js/bootstrap.min.js"></script>-->
-
 </head>
 
 <body class="bg-light">
 
+<div class="modal fade" id="addOperationModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">新增操作</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addTypeOperationForm">
+                    <div class="form-group">
+                        <label for="service" class="control-label">homeassistant服务</label>
+                        <input type="text" class="form-control" id="service" name="service">
+                    </div>
+                    <div class="form-group">
+                        <label for="responseName" class="control-label">响应代码</label>
+                        <input type="text" class="form-control" id="responseName" name="responseName">
+                    </div>
+                    <div class="form-group">
+                        <label for="operationId" class="control-label">设备操作</label>
+                        <select class="form-control" id="operationId" name="operationId"></select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+<!--                <button type="button" class="btn btn-primary">提交更改</button>-->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
 <div class="container">
     <div style="margin: 50px ">
         <h1>天猫支持设备类别列表</h1>
@@ -43,7 +64,7 @@
 </div>
 
 
-<link href="/css/form-validation.css" rel="stylesheet">
+
 <script src="/js/jquery-2.1.4.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -51,50 +72,26 @@
 <link href="/css/bootstrap-table.min.css" rel="stylesheet">
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-validator/0.4.0/js/bootstrapValidator.min.js"></script>
+<link src="https://cdn.bootcdn.net/ajax/libs/bootstrap-validator/0.4.0/css/bootstrapValidator.min.css" rel="stylesheet"></link>
+
 <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-
-
-   /* $(document).ready(function () {
-
+    //操作下拉框
+    $(function () {
         $.ajax({
             type:"get",
-            url:'/setting/deviceTypes',
+            url:'/setting/operations',
             success: function (data) {
                 enterprise_productlist = data;
                 var html = '';
                 $.each(data, function(key,val) {
-                    html += '<option  value="'+val.englishName+'">'+val.name+'</option>';
-
+                    html += '<option  value="'+val.id+'">'+val.name+"=============="+val.friendlyName+'</option>';
                 });
-                $('#deviceType').append(html);
+                $('#operationId').append(html);
             },
             error:function(){}
         });
     })
-*/
-    /*function add(datas) {
-        $.ajax({
-            //几个参数需要注意一下
-            type: "POST",//方法类型
-            dataType: "json",//预期服务器返回的数据类型
-            url: "/setting/device" ,//url
-            data: datas,
-            success: function (result) {
-                console.log(result);//打印服务端返回的数据(调试用)
-                if (result.code == 200) {
-                    alert(result.msg);
-                }else if(result.code == 400){
-                    alert(result.msg);
-                }
-            },
-            error : function() {
-                alert("异常！");
-            }
-        });
-    }*/
-
-
 
     var $table;
     $(function(){
@@ -239,8 +236,12 @@
         }
     }
 
-    function Operation() {
-        alert("hh")
+    function Operation(id) {
+        //打开模态框 然后 进行新增操作，操作完成后刷新表格
+        // $('#myModal').modal('hide')
+        $('#addOperationModel').modal('show')
+
+
     }
 
     function delOperation(id) {
@@ -269,6 +270,37 @@
         $('#table').bootstrapTable('refresh', {url: "/setting/deviceLists",pageNumber:0});
     }
 
+    //==========================================================================
+    $(function () {
+        $('#addTypeOperationForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                service: {
+                    message: '请选择实体id',
+                    validators: {
+                        notEmpty: {
+                            message: 'homeassistant服务不可为空'
+                        }
+                    }
+                },
+                responseName: {
+                    validators: {
+                        notEmpty: {
+                            message: '响应代码不能为空'
+                        }
+                    }
+                }
+            },
+            submitHandler: function (validator, form, submitButton) {
+                //add(form.serialize())
+            }
+        });
+    });
 </script>
 </body>
 </html>
