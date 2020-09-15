@@ -36,6 +36,7 @@
                     <div class="form-group">
                         <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
                     </div>
+                    <input type="hidden"  id="devicetypeId" >
                 </form>
             </div>
             <div class="modal-footer">
@@ -240,6 +241,7 @@
         //打开模态框 然后 进行新增操作，操作完成后刷新表格
         // $('#myModal').modal('hide')
         $('#addOperationModel').modal('show')
+        $('#devicetypeId').val(id);
 
 
     }
@@ -270,7 +272,7 @@
         $('#table').bootstrapTable('refresh', {url: "/setting/deviceLists",pageNumber:0});
     }
 
-    //==========================================================================
+    //===========================新增和一些校验===============================================
     $(function () {
         $('#addTypeOperationForm').bootstrapValidator({
             message: 'This value is not valid',
@@ -297,10 +299,50 @@
                 }
             },
             submitHandler: function (validator, form, submitButton) {
-                //add(form.serialize())
+                addTypeOperations(transformToJson(form.serializeArray()));
             }
         });
     });
+
+    function addTypeOperations(datas) {
+        var deviceType = new Object();
+        deviceType.id=$('#devicetypeId').val();
+
+        var operation = new Object();
+        operation.id=datas.operationId;
+
+        datas.deviceType= deviceType;
+        datas.operation= operation;
+        var data = JSON.stringify(datas);
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/DeviceTypeOperation" ,//url
+            contentType: "application/json",
+            data: data,
+            success: function (result) {
+                $('#addTypeOperationForm').bootstrapValidator('disableSubmitButtons', false);
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+    }
+
+    function transformToJson(formData){
+        var obj={}
+        for (var i in formData) {
+            obj[formData[i].name]=formData[i]['value'];
+        }
+        return obj;
+    }
 </script>
 </body>
 </html>

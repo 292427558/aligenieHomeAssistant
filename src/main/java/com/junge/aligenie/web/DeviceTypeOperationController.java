@@ -1,13 +1,15 @@
 package com.junge.aligenie.web;
 
+import com.junge.aligenie.entity.Device;
 import com.junge.aligenie.entity.DeviceTypeOperation;
 import com.junge.aligenie.repository.DeviceTypeOperationRepository;
+import com.junge.aligenie.utils.ReturnT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -22,6 +24,19 @@ public class DeviceTypeOperationController {
 
     @Autowired
     DeviceTypeOperationRepository deviceTypeOperationRepository;
+
+    @PostMapping("/DeviceTypeOperation")
+    @ResponseBody
+    public ReturnT addDeviceTypeOperation(@Valid @RequestBody DeviceTypeOperation deviceTypeOperation, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ReturnT(400,bindingResult.getFieldError().getDefaultMessage());
+        }
+        DeviceTypeOperation save = deviceTypeOperationRepository.save(deviceTypeOperation);
+        if(save!=null){
+            return new ReturnT(200,"新增成功");
+        }
+        return new ReturnT(500,"新增失败");
+    }
 
     @GetMapping("/DeviceTypeOperations")
     @ResponseBody
