@@ -24,7 +24,7 @@
     </div>
 
         <h4 class="mb-3">新增操作</h4>
-        <form class="form-horizontal"  method="post" action="/setting/operation" >
+        <form id="addForm" class="form-horizontal"  method="post" action="/setting/operation" >
 
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">操作代码</label>
@@ -42,12 +42,12 @@
             <hr class="mb-4">
 
 
+            <div class="col-sm-6">
+                <!--        <button class="btn btn-primary  btn-block" type="submit">新增</button>-->
+                <button class="btn btn-primary  btn-block" type="submit">新增</button>
+            </div>
         </form>
     <label  class="col-sm-2 control-label"></label>
-    <div class="col-sm-6">
-<!--        <button class="btn btn-primary  btn-block" type="submit">新增</button>-->
-        <button class="btn btn-primary  btn-block" onclick="submitForm()">新增</button>
-    </div>
 
     </div>
     <hr class="mb-4">
@@ -70,7 +70,7 @@
 
 <script>
     $(function () {
-        $('form').bootstrapValidator({
+        $('#addForm').bootstrapValidator({
             message: 'This value is not valid',
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
@@ -93,6 +93,9 @@
                         }
                     }
                 }
+            },
+            submitHandler: function (validator, form, submitButton) {
+                add(form.serialize())
             }
         });
     });
@@ -107,6 +110,7 @@
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
+                    $('#addForm').bootstrapValidator('disableSubmitButtons', false);
                     alert(result.msg);
                 }else if(result.code == 400){
                     alert(result.msg);
