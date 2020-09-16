@@ -5,12 +5,13 @@ import com.junge.aligenie.entity.DeviceTypeOperation;
 import com.junge.aligenie.entity.parameter.ServiceParameter;
 import com.junge.aligenie.repository.DeviceTypeOperationRepository;
 import com.junge.aligenie.repository.ServiceParameterRepository;
+import com.junge.aligenie.utils.ReturnT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,4 +42,17 @@ public class ServiceParameterController {
         return  null;
     }
 
+
+    @PostMapping("/serviceParameter")
+    @ResponseBody
+    public ReturnT addServiceParameter(@Valid @RequestBody ServiceParameter serviceParameter, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ReturnT(400,bindingResult.getFieldError().getDefaultMessage());
+        }
+        ServiceParameter save = serviceParameterRepository.save(serviceParameter);
+        if(save!=null){
+            return new ReturnT(200,"新增成功");
+        }
+        return new ReturnT(500,"新增失败");
+    }
 }

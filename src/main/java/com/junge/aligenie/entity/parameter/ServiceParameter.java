@@ -1,8 +1,6 @@
 package com.junge.aligenie.entity.parameter;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import com.junge.aligenie.entity.DeviceTypeOperation;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,6 +18,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "hass_service_parameter")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "@Id")
 public class ServiceParameter {
 
     @Id
@@ -40,13 +39,10 @@ public class ServiceParameter {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "service_parameter_id",referencedColumnName = "id")
-    @JsonBackReference
-    //@JsonManagedReference
     private List<ServiceParameterrConversion> serviceParameterrConversions;
 
     @ManyToOne
     @JoinColumn(name = "device_type_operation_id")
-    @JsonIgnore
     private DeviceTypeOperation deviceTypeOperation;
 
     @Override

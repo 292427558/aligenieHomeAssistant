@@ -44,4 +44,11 @@ public class DeviceTypeOperationController {
         List<DeviceTypeOperation> operationList = deviceTypeOperationRepository.getDeviceTypeOperationsByDeviceType_Id(id);
         return operationList;
     }
+
+    @DeleteMapping("/DeviceTypeOperation/{id}")
+    @ResponseBody
+    public ReturnT delOperations(@PathVariable("id") String id){
+        deviceTypeOperationRepository.deleteById(id);
+        return new ReturnT(200,"删除成功");
+    }
 }

@@ -41,7 +41,49 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-<!--                <button type="button" class="btn btn-primary">提交更改</button>-->
+                <!--                <button type="button" class="btn btn-primary">提交更改</button>-->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="addParameterModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" >新增操作参数</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addParameterForm">
+                    <div class="form-group">
+                        <label for="parameterName" class="control-label">参数名称</label>
+                        <input type="text" class="form-control" id="parameterName" name="parameterName">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">是否需要转化</label>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="isConversion" value="1" checked> 不需要
+                            </label>
+                            <label>
+                                <input type="radio" name="isConversion" value="2"> 需要
+                            </label>
+                        </div>
+                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label for="operationId" class="control-label">设备操作</label>-->
+<!--                        <select class="form-control" id="operationId" name="operationId"></select>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
+                    </div>
+                    <input type="hidden"  id="deviceTypeOperationId" >
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!--                <button type="button" class="btn btn-primary">提交更改</button>-->
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -208,6 +250,12 @@
             }, {
                 field: 'responseName',
                 title: '响应代码'
+            },{
+                title:'操作',
+                field:'Button',
+                align:'center',
+                // events: operateEvents,//事件
+                formatter:addOperationButton //添加按钮
             }
             ],
             //无线循环取子表，直到子表里面没有记录
@@ -222,8 +270,9 @@
         return html;
     }
 
-    function addDel(value, row, index) {
-        var html = '<a href="javascript:void(0)" onclick="delOperation(\''+row.id+'\')">删除</a>';
+    function addOperationButton(value, row, index) {
+        var html = '<a href="javascript:void(0)" onclick="addParameter(\''+row.id+'\')">新增参数</a>&nbsp;&nbsp;&nbsp;' +
+            '<a href="javascript:void(0)" onclick="delOperation(\''+row.id+'\')">删除</a>';
         return html;
     }
     //查询参数
@@ -242,8 +291,12 @@
         // $('#myModal').modal('hide')
         $('#addOperationModel').modal('show')
         $('#devicetypeId').val(id);
+    }
 
-
+    function addParameter(id) {
+        //打开参数模态框
+        $('#addParameterModel').modal('show')
+        $('#deviceTypeOperationId').val(id);
     }
 
     function delOperation(id) {
@@ -251,7 +304,7 @@
             //几个参数需要注意一下
             type: "post",//方法类型
             dataType: "json",//预期服务器返回的数据类型
-            url: "/setting/device/"+id ,//url
+            url: "/setting/DeviceTypeOperation/"+id ,//url
             data: {'_method':'delete'},
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
@@ -268,12 +321,15 @@
         });
     }
 
+
+
     function refresh(){
         $('#table').bootstrapTable('refresh', {url: "/setting/deviceLists",pageNumber:0});
     }
 
     //===========================新增和一些校验===============================================
     $(function () {
+        //新增类别操作校验
         $('#addTypeOperationForm').bootstrapValidator({
             message: 'This value is not valid',
             feedbackIcons: {
@@ -302,6 +358,29 @@
                 addTypeOperations(transformToJson(form.serializeArray()));
             }
         });
+
+        //新增参数校验
+        $('#addParameterForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                parameterName: {
+                    message: '参数名不可为空',
+                    validators: {
+                        notEmpty: {
+                            message: '参数名不可为空'
+                        }
+                    }
+                }
+            },
+            submitHandler: function (validator, form, submitButton) {
+                addServiceParameter(transformToJson(form.serializeArray()));
+            }
+        });
     });
 
     function addTypeOperations(datas) {
@@ -322,7 +401,7 @@
             contentType: "application/json",
             data: data,
             success: function (result) {
-                $('#addTypeOperationForm').bootstrapValidator('disableSubmitButtons', false);
+                $('#addParameterForm').bootstrapValidator('disableSubmitButtons', false);
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
                     alert(result.msg);
@@ -336,6 +415,35 @@
         });
     }
 
+    //添加参数
+    function addServiceParameter(datas) {
+        var deviceTypeOperation = new Object();
+        deviceTypeOperation.id=$('#deviceTypeOperationId').val();
+        datas.deviceTypeOperation= deviceTypeOperation;
+        var data = JSON.stringify(datas);
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/serviceParameter" ,//url
+            contentType: "application/json",
+            data: data,
+            success: function (result) {
+                $('#addTypeOperationForm').bootstrapValidator('disableSubmitButtons', false);
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("服务异常！");
+            }
+        });
+    }
+
+    //转化对象
     function transformToJson(formData){
         var obj={}
         for (var i in formData) {
