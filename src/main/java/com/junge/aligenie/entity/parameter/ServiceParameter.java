@@ -38,6 +38,7 @@ public class ServiceParameter {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "service_parameter_id",referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ServiceParameterrConversion> serviceParameterrConversions;
 
     @ManyToOne
