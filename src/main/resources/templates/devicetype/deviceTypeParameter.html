@@ -225,20 +225,22 @@
     //初始化子表格 类别操作
     function InitSubTable (index, row, $detail) {
         var parentid = row.id;
-        var cur_table = $detail.html('<table></table>').find('table');
+        var cur_table = $detail.html('<table style="width: 90%;margin-left: 60px"></table>').find('table');
         $(cur_table).bootstrapTable({
             url: '/setting/DeviceTypeOperations',
             method: 'get',
             queryParams: { id: parentid },
             ajaxOptions: { id: parentid },
-            clickToSelect: true,
+            // clickToSelect: true,
             detailView: true,//父子表
             uniqueId: "id",
             pageSize: 10,
             pageList: [10, 25],
-            columns: [{
-                checkbox: true
-            },{
+            columns: [
+            //     {
+            //     checkbox: true
+            // },
+            {
                 field: 'operation.friendlyName',
                 title: '操作'
             }, {
@@ -268,37 +270,79 @@
     //初始化子表格 参数表
     function InitSubTableParameter (index, row, $detail) {
         var parentid = row.id;
-        var cur_table = $detail.html('<table></table>').find('table');
+        var cur_table = $detail.html('<table style="width: 90%;margin-left: 60px"></table>').find('table');
         $(cur_table).bootstrapTable({
             url: '/setting/serviceParameters',
             method: 'get',
             queryParams: { id: parentid },
             ajaxOptions: { id: parentid },
-            clickToSelect: true,
+            // clickToSelect: true,
             detailView: true,//父子表
             uniqueId: "id",
             pageSize: 10,
             pageList: [10, 25],
-            columns: [{
-                checkbox: true
-            },{
+            columns: [
+            //     {
+            //     checkbox: true
+            // },
+            {
                 field: 'parameterName',
-                title: '操作'
+                title: '参数名称'
             }, {
                 field: 'isConversion',
-                title: '操作代码'
+                title: '是否需要转化',
+                formatter:formatIsConversion
             },{
                 title:'操作',
                 field:'Button',
                 align:'center',
                 // events: operateEvents,//事件
-                formatter:addOperationButton //添加按钮
+                formatter:addParameterButton //添加按钮
             }
             ],
             //无线循环取子表，直到子表里面没有记录
             onExpandRow: function (index, row, $Subdetail) {
                 //oInit.InitSubTable(index, row, $Subdetail);
             }
+        });
+    };
+
+    //初始化子表格 参数转化表
+    function InitSubTableParameterrConversion (index, row, $detail) {
+        var parentid = row.id;
+        var cur_table = $detail.html('<table style="width: 90%;margin-left: 60px"></table>').find('table');
+        $(cur_table).bootstrapTable({
+            url: '/setting/serviceParameters',
+            method: 'get',
+            queryParams: { id: parentid },
+            ajaxOptions: { id: parentid },
+            // clickToSelect: true,
+            detailView: true,//父子表
+            uniqueId: "id",
+            pageSize: 10,
+            pageList: [10, 25],
+            columns: [
+                //     {
+                //     checkbox: true
+                // },
+                {
+                    field: 'aliParameterAttr',
+                    title: '阿里请求参数attribute值'
+                }, {
+                    field: 'aliParameterValue',
+                    title: '阿里请求参数value值',
+                }, {
+                    field: 'hassParameter',
+                    title: 'homeassistant参数'
+                }
+                ,{
+                    title:'操作',
+                    field:'Button',
+                    align:'center',
+                    // events: operateEvents,//事件
+                    formatter:addParameterrConversionButton //添加按钮
+                }
+            ]
         });
     };
 
@@ -311,6 +355,29 @@
         var html = '<a href="javascript:void(0)" onclick="addParameter(\''+row.id+'\')">新增参数</a>&nbsp;&nbsp;&nbsp;' +
             '<a href="javascript:void(0)" onclick="delOperation(\''+row.id+'\')">删除</a>';
         return html;
+    }
+
+    //参数按钮
+    function addParameterButton(value, row, index) {
+        var html = '';
+        if(row.isConversion=='2')
+            html += '<a href="javascript:void(0)" onclick="addParameterConversion(\''+row.id+'\')">新增参数转化</a>&nbsp;&nbsp;&nbsp;';
+
+            html += '<a href="javascript:void(0)" onclick="delParameter(\''+row.id+'\')">删除</a>';
+        return html;
+    }
+
+    function addParameterrConversionButton(value, row, index) {
+        var html = '<a href="javascript:void(0)" onclick="delParameterrConversion(\''+row.id+'\')">删除</a>';
+        return html;
+    }
+
+    function formatIsConversion(value, row, index) {
+        if(value=='2'){
+            return '是'
+        }else if(value=='1'){
+            return '否'
+        }
     }
     //查询参数
     function qua_queryParams(params) {
@@ -336,6 +403,12 @@
         $('#deviceTypeOperationId').val(id);
     }
 
+    function addParameterConversion(id) {
+        //打开参数转化模态框
+        $('#addParameterConversionModel').modal('show')
+        $('#addParameterConversionId').val(id);
+    }
+
     function delOperation(id) {
         $.ajax({
             //几个参数需要注意一下
@@ -354,6 +427,50 @@
             },
             error : function() {
                 alert("异常！");
+            }
+        });
+    }
+
+    function delParameter(id) {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "post",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/serviceParameter/"+id ,//url
+            data: {'_method':'delete'},
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                    refresh();
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("服务异常！");
+            }
+        });
+    }
+
+    function delParameterrConversion(id) {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "post",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/parameterrConversion/"+id ,//url
+            data: {'_method':'delete'},
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                    refresh();
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("服务异常！");
             }
         });
     }

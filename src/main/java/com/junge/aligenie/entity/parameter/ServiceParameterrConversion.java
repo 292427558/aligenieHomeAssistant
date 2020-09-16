@@ -36,7 +36,7 @@ public class ServiceParameterrConversion {
     private String aliParameterValue;
 
     @Column(name = "hass_parameter",nullable = false, length = 255)
-    @NotEmpty(message = "homeassistant参数")
+    @NotEmpty(message = "homeassistant参数不可为空")
     private String hassParameter;
 
     @ManyToOne

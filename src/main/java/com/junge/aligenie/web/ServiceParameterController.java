@@ -54,5 +54,10 @@ public class ServiceParameterController {
         return new ReturnT(500,"新增失败");
     }
 
-
+    @DeleteMapping("/serviceParameter/{id}")
+    @ResponseBody
+    public ReturnT delServiceParameter(@PathVariable("id") String id){
+        serviceParameterRepository.deleteById(id);
+        return new ReturnT(200,"删除成功");
+    }
 }
