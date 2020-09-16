@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @Data
 @Table(name = "hass_service_parameterr_conversion")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "@Id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ServiceParameterrConversion {
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "org.hibernate.id.UUIDGenerator")

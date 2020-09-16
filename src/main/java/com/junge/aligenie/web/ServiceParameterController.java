@@ -36,10 +36,8 @@ public class ServiceParameterController {
     @GetMapping("/serviceParameters")
     @ResponseBody
     public List<ServiceParameter> getServiceParameters(String id){
-        //List<ServiceParameter> all = serviceParameterRepository.getServiceParametersByDeviceTypeOperation_Id(id);
-//        DeviceTypeOperation deviceTypeOperation = deviceTypeOperationRepository.getDeviceTypeOperationByDeviceType_Id(id);
-//        List<ServiceParameter> serviceParameters = deviceTypeOperation.getServiceParameters();
-        return  null;
+        List<ServiceParameter> serviceParameterList = serviceParameterRepository.getServiceParametersByDeviceTypeOperation_Id(id);
+        return  serviceParameterList;
     }
 
 
@@ -55,4 +53,6 @@ public class ServiceParameterController {
         }
         return new ReturnT(500,"新增失败");
     }
+
+
 }

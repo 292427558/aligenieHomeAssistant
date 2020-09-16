@@ -18,7 +18,6 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "hass_service_parameter")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "@Id")
 public class ServiceParameter {
 
     @Id
@@ -54,4 +53,5 @@ public class ServiceParameter {
                 ", serviceParameterrConversions=" + serviceParameterrConversions +
                 '}';
     }
+
 }

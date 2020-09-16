@@ -222,7 +222,7 @@
     })
 
     //var oTable = new TableInit();
-    //初始化子表格
+    //初始化子表格 类别操作
     function InitSubTable (index, row, $detail) {
         var parentid = row.id;
         var cur_table = $detail.html('<table></table>').find('table');
@@ -250,6 +250,43 @@
             }, {
                 field: 'responseName',
                 title: '响应代码'
+            },{
+                title:'操作',
+                field:'Button',
+                align:'center',
+                // events: operateEvents,//事件
+                formatter:addOperationButton //添加按钮
+            }
+            ],
+            //无线循环取子表，直到子表里面没有记录
+            onExpandRow: function (index, row, $Subdetail) {
+                InitSubTableParameter(index, row, $Subdetail);
+            }
+        });
+    };
+
+    //初始化子表格 参数表
+    function InitSubTableParameter (index, row, $detail) {
+        var parentid = row.id;
+        var cur_table = $detail.html('<table></table>').find('table');
+        $(cur_table).bootstrapTable({
+            url: '/setting/serviceParameters',
+            method: 'get',
+            queryParams: { id: parentid },
+            ajaxOptions: { id: parentid },
+            clickToSelect: true,
+            detailView: true,//父子表
+            uniqueId: "id",
+            pageSize: 10,
+            pageList: [10, 25],
+            columns: [{
+                checkbox: true
+            },{
+                field: 'parameterName',
+                title: '操作'
+            }, {
+                field: 'isConversion',
+                title: '操作代码'
             },{
                 title:'操作',
                 field:'Button',

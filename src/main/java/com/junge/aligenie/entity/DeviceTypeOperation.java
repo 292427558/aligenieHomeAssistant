@@ -2,7 +2,6 @@ package com.junge.aligenie.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import com.junge.aligenie.entity.parameter.ServiceParameter;
-import com.junge.aligenie.entity.parameter.ServiceParameterrConversion;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -21,7 +20,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "hass_device_type_operation")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "@Id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class DeviceTypeOperation {
 
     @Id
@@ -55,5 +54,6 @@ public class DeviceTypeOperation {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)//指定抓取策略
     @JoinColumn(name = "device_type_operation_id",referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ServiceParameter> serviceParameters;
 }
