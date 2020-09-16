@@ -88,6 +88,40 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+<!--参数转化模态框-->
+<div class="modal fade" id="addParameterConversionModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" >新增参数转化</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addParameterConversionForm">
+                    <div class="form-group">
+                        <label for="aliParameterAttr" class="control-label">天猫请求参数attribute</label>
+                        <input type="text" class="form-control" id="aliParameterAttr" name="aliParameterAttr">
+                    </div>
+                    <div class="form-group">
+                        <label for="aliParameterValue" class="control-label">天猫请求参数value</label>
+                        <input type="text" class="form-control" id="aliParameterValue" name="aliParameterValue">
+                    </div>
+                    <div class="form-group">
+                        <label for="hassParameter" class="control-label">homeAssistant参数</label>
+                        <input type="text" class="form-control" id="hassParameter" name="hassParameter">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">新增</button>
+                    </div>
+                    <input type="hidden"  id="addParameterId" >
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
 <div class="container">
     <div style="margin: 50px ">
         <h1>天猫支持设备类别列表</h1>
@@ -302,7 +336,7 @@
             ],
             //无线循环取子表，直到子表里面没有记录
             onExpandRow: function (index, row, $Subdetail) {
-                //oInit.InitSubTable(index, row, $Subdetail);
+                InitSubTableParameterrConversion(index, row, $Subdetail);
             }
         });
     };
@@ -312,7 +346,7 @@
         var parentid = row.id;
         var cur_table = $detail.html('<table style="width: 90%;margin-left: 60px"></table>').find('table');
         $(cur_table).bootstrapTable({
-            url: '/setting/serviceParameters',
+            url: '/setting/parameterrConversions',
             method: 'get',
             queryParams: { id: parentid },
             ajaxOptions: { id: parentid },
@@ -406,7 +440,7 @@
     function addParameterConversion(id) {
         //打开参数转化模态框
         $('#addParameterConversionModel').modal('show')
-        $('#addParameterConversionId').val(id);
+        $('#addParameterId').val(id);
     }
 
     function delOperation(id) {
@@ -513,6 +547,43 @@
             }
         });
 
+        //新增参数转化校验
+        $('#addParameterConversionForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                // aliParameterAttr: {
+                //     message: '参数名不可为空',
+                //     validators: {
+                //         notEmpty: {
+                //             message: '猫请求参数payload中attribute不可为空'
+                //         }
+                //     }
+                // },
+                // aliParameterValue: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '天猫请求参数payload中value不可为空'
+                //         }
+                //     }
+                // },
+                hassParameter: {
+                    validators: {
+                        notEmpty: {
+                            message: 'homeassistant参数不可为空'
+                        }
+                    }
+                }
+            },
+            submitHandler: function (validator, form, submitButton) {
+                addServiceParameterConversion(transformToJson(form.serializeArray()));
+            }
+        });
+
         //新增参数校验
         $('#addParameterForm').bootstrapValidator({
             message: 'This value is not valid',
@@ -583,7 +654,7 @@
             contentType: "application/json",
             data: data,
             success: function (result) {
-                $('#addTypeOperationForm').bootstrapValidator('disableSubmitButtons', false);
+                $('#addParameterForm').bootstrapValidator('disableSubmitButtons', false);
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
                     alert(result.msg);
@@ -597,6 +668,32 @@
         });
     }
 
+    function addServiceParameterConversion(datas) {
+        var serviceParameter = new Object();
+        serviceParameter.id=$('#addParameterId').val();
+        datas.serviceParameter= serviceParameter;
+        var data = JSON.stringify(datas);
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/parameterrConversion" ,//url
+            contentType: "application/json",
+            data: data,
+            success: function (result) {
+                $('#addParameterConversionForm').bootstrapValidator('disableSubmitButtons', false);
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("服务异常！");
+            }
+        });
+    }
     //转化对象
     function transformToJson(formData){
         var obj={}

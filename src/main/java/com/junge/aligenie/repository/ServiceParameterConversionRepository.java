@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface ServiceParameterConversionRepository extends JpaRepository<ServiceParameterrConversion,String> {
 
-    //List<ServiceParameter> getServiceParametersByDeviceTypeOperation_Id(String id);
+    List<ServiceParameterrConversion> getServiceParameterrConversionByServiceParameterId(String id);
 }
