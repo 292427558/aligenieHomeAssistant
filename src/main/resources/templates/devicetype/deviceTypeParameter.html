@@ -239,7 +239,7 @@
                 return{"rows": res.content, "total": res.totalElements};
             },
             onLoadSuccess: function (data) {
-                console.log(data);
+                //console.log(data);
             },
             onLoadError: function () {
                 console.log("数据加载失败！");
@@ -259,7 +259,7 @@
     //初始化子表格 类别操作
     function InitSubTable (index, row, $detail) {
         var parentid = row.id;
-        var cur_table = $detail.html('<table style="width: 90%;margin-left: 60px"></table>').find('table');
+        var cur_table = $detail.html('<table id='+row.id+' style="width: 90%;margin-left: 60px"></table>').find('table');
         $(cur_table).bootstrapTable({
             url: '/setting/DeviceTypeOperations',
             method: 'get',
@@ -304,7 +304,7 @@
     //初始化子表格 参数表
     function InitSubTableParameter (index, row, $detail) {
         var parentid = row.id;
-        var cur_table = $detail.html('<table style="width: 90%;margin-left: 60px"></table>').find('table');
+        var cur_table = $detail.html('<table id='+parentid+' style="width: 90%;margin-left: 60px"></table>').find('table');
         $(cur_table).bootstrapTable({
             url: '/setting/serviceParameters',
             method: 'get',
@@ -344,7 +344,7 @@
     //初始化子表格 参数转化表
     function InitSubTableParameterrConversion (index, row, $detail) {
         var parentid = row.id;
-        var cur_table = $detail.html('<table style="width: 90%;margin-left: 60px"></table>').find('table');
+        var cur_table = $detail.html('<table id='+parentid+' style="width: 90%;margin-left: 60px"></table>').find('table');
         $(cur_table).bootstrapTable({
             url: '/setting/parameterrConversions',
             method: 'get',
@@ -387,7 +387,7 @@
 
     function addOperationButton(value, row, index) {
         var html = '<a href="javascript:void(0)" onclick="addParameter(\''+row.id+'\')">新增参数</a>&nbsp;&nbsp;&nbsp;' +
-            '<a href="javascript:void(0)" onclick="delOperation(\''+row.id+'\')">删除</a>';
+            '<a href="javascript:void(0)" onclick="delOperation(\''+row.id+'\',this)">删除</a>';
         return html;
     }
 
@@ -397,12 +397,12 @@
         if(row.isConversion=='2')
             html += '<a href="javascript:void(0)" onclick="addParameterConversion(\''+row.id+'\')">新增参数转化</a>&nbsp;&nbsp;&nbsp;';
 
-            html += '<a href="javascript:void(0)" onclick="delParameter(\''+row.id+'\')">删除</a>';
+            html += '<a href="javascript:void(0)" onclick="delParameter(\''+row.id+'\',this)">删除</a>';
         return html;
     }
 
     function addParameterrConversionButton(value, row, index) {
-        var html = '<a href="javascript:void(0)" onclick="delParameterrConversion(\''+row.id+'\')">删除</a>';
+        var html = '<a href="javascript:void(0)" onclick="delParameterrConversion(\''+row.id+'\',this)">删除</a>';
         return html;
     }
 
@@ -427,23 +427,36 @@
     function Operation(id) {
         //打开模态框 然后 进行新增操作，操作完成后刷新表格
         // $('#myModal').modal('hide')
+        //$("#addTypeOperationForm").data('bootstrapValidator').destroy();
+        // $("#addTypeOperationForm").data('bootstrapValidator').resetForm();
+        //$('#addTypeOperationForm').data('bootstrapValidator',null);
+        $('#addTypeOperationForm')[0].reset();
         $('#addOperationModel').modal('show')
         $('#devicetypeId').val(id);
+
     }
 
     function addParameter(id) {
+        // $("#addParameterForm").data('bootstrapValidator').destroy();
+        // $('#addParameterForm').data('bootstrapValidator',null);
+        $('#addParameterForm')[0].reset();
+        initValid();
         //打开参数模态框
         $('#addParameterModel').modal('show')
         $('#deviceTypeOperationId').val(id);
     }
 
     function addParameterConversion(id) {
+        $("#addParameterConversionForm").data('bootstrapValidator').destroy();
+        $('#addParameterConversionForm').data('bootstrapValidator',null);
+        $('#addParameterConversionForm')[0].reset();
+        initValid();
         //打开参数转化模态框
         $('#addParameterConversionModel').modal('show')
         $('#addParameterId').val(id);
     }
 
-    function delOperation(id) {
+    function delOperation(id,obj) {
         $.ajax({
             //几个参数需要注意一下
             type: "post",//方法类型
@@ -454,7 +467,8 @@
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
                     alert(result.msg);
-                    refresh();
+                    $(obj).closest("table").bootstrapTable('refresh');
+                    //refreshDeviceTypeOperation();
                 }else if(result.code == 400){
                     alert(result.msg);
                 }
@@ -465,7 +479,7 @@
         });
     }
 
-    function delParameter(id) {
+    function delParameter(id,obj) {
         $.ajax({
             //几个参数需要注意一下
             type: "post",//方法类型
@@ -476,7 +490,8 @@
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
                     alert(result.msg);
-                    refresh();
+                    $(obj).closest("table").bootstrapTable('refresh');
+                    //refresh();
                 }else if(result.code == 400){
                     alert(result.msg);
                 }
@@ -487,7 +502,7 @@
         });
     }
 
-    function delParameterrConversion(id) {
+    function delParameterrConversion(id,obj) {
         $.ajax({
             //几个参数需要注意一下
             type: "post",//方法类型
@@ -498,7 +513,8 @@
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
                     alert(result.msg);
-                    refresh();
+                    $(obj).closest("table").bootstrapTable('refresh');
+                    //refresh();
                 }else if(result.code == 400){
                     alert(result.msg);
                 }
@@ -515,8 +531,16 @@
         $('#table').bootstrapTable('refresh', {url: "/setting/deviceLists",pageNumber:0});
     }
 
+    function refreshDeviceTypeOperation(id){
+        $('#'+id).bootstrapTable('refresh');
+    }
+
     //===========================新增和一些校验===============================================
     $(function () {
+        initValid();
+    });
+
+    function initValid() {
         //新增类别操作校验
         $('#addTypeOperationForm').bootstrapValidator({
             message: 'This value is not valid',
@@ -606,7 +630,7 @@
                 addServiceParameter(transformToJson(form.serializeArray()));
             }
         });
-    });
+    }
 
     function addTypeOperations(datas) {
         var deviceType = new Object();
@@ -626,10 +650,12 @@
             contentType: "application/json",
             data: data,
             success: function (result) {
-                $('#addParameterForm').bootstrapValidator('disableSubmitButtons', false);
+                $('#addTypeOperationForm').bootstrapValidator('disableSubmitButtons', false);
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
                     alert(result.msg);
+                    $('#addOperationModel').modal('hide')
+                    refreshDeviceTypeOperation(datas.deviceType.id)
                 }else if(result.code == 400){
                     alert(result.msg);
                 }
@@ -658,6 +684,8 @@
                 console.log(result);//打印服务端返回的数据(调试用)
                 if (result.code == 200) {
                     alert(result.msg);
+                    $('#addParameterModel').modal('hide')
+                    refreshDeviceTypeOperation(datas.deviceTypeOperation.id)
                 }else if(result.code == 400){
                     alert(result.msg);
                 }
@@ -683,9 +711,11 @@
             success: function (result) {
                 $('#addParameterConversionForm').bootstrapValidator('disableSubmitButtons', false);
                 console.log(result);//打印服务端返回的数据(调试用)
-                if (result.code == 200) {
+                if (result.code === 200) {
                     alert(result.msg);
-                }else if(result.code == 400){
+                    $('#addParameterConversionModel').modal('hide');
+                    refreshDeviceTypeOperation(datas.serviceParameter.id)
+                }else if(result.code === 400){
                     alert(result.msg);
                 }
             },
@@ -696,7 +726,7 @@
     }
     //转化对象
     function transformToJson(formData){
-        var obj={}
+        var obj={};
         for (var i in formData) {
             obj[formData[i].name]=formData[i]['value'];
         }
