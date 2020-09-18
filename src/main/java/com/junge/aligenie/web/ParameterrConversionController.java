@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,7 +49,9 @@ public class ParameterrConversionController {
     @DeleteMapping("/parameterrConversion/{id}")
     @ResponseBody
     public ReturnT delParameterrConversion(@PathVariable("id") String id){
-        serviceParameterConversionRepository.deleteById(id);
+        List<ServiceParameterrConversion> allById = serviceParameterConversionRepository.findAllById(Collections.singleton(id));
+        serviceParameterConversionRepository.deleteInBatch(allById);
+        //serviceParameterConversionRepository.deleteById(id);
         return new ReturnT(200,"删除成功");
     }
 }

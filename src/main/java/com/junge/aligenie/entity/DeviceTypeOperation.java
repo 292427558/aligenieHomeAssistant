@@ -51,9 +51,9 @@ public class DeviceTypeOperation {
     @JoinColumn(name = "operation_id",referencedColumnName = "id")
     private Operation operation;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "deviceTypeOperation")
     @Fetch(FetchMode.SUBSELECT)//指定抓取策略
-    @JoinColumn(name = "device_type_operation_id",referencedColumnName = "id")
+//    @JoinColumn(name = "device_type_operation_id",referencedColumnName = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ServiceParameter> serviceParameters;
 }

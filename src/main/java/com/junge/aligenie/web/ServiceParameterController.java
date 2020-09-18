@@ -5,9 +5,11 @@ import com.junge.aligenie.entity.DeviceTypeOperation;
 import com.junge.aligenie.entity.parameter.ServiceParameter;
 import com.junge.aligenie.repository.DeviceTypeOperationRepository;
 import com.junge.aligenie.repository.ServiceParameterRepository;
+import com.junge.aligenie.service.ServiceParameterSercice;
 import com.junge.aligenie.utils.ReturnT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +33,7 @@ public class ServiceParameterController {
     ServiceParameterRepository serviceParameterRepository;
 
     @Autowired
-    DeviceTypeOperationRepository deviceTypeOperationRepository;
+    ServiceParameterSercice serviceParameterSercice;
 
     @GetMapping("/serviceParameters")
     @ResponseBody
@@ -57,7 +59,9 @@ public class ServiceParameterController {
     @DeleteMapping("/serviceParameter/{id}")
     @ResponseBody
     public ReturnT delServiceParameter(@PathVariable("id") String id){
-        serviceParameterRepository.deleteById(id);
+//        serviceParameterSercice.deletebyId(id);
+        List<ServiceParameter> allById = serviceParameterRepository.findAllById(Collections.singleton(id));
+        serviceParameterRepository.deleteInBatch(allById);
         return new ReturnT(200,"删除成功");
     }
 }

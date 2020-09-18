@@ -3,6 +3,8 @@ package com.junge.aligenie.entity.parameter;
 import com.fasterxml.jackson.annotation.*;
 import com.junge.aligenie.entity.DeviceTypeOperation;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -36,8 +38,8 @@ public class ServiceParameter {
     @NotEmpty(message = "类别")
     private String isConversion = "1";
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "service_parameter_id",referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "serviceParameter")
+//    @JoinColumn(name = "service_parameter_id",referencedColumnName = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ServiceParameterrConversion> serviceParameterrConversions;
 
