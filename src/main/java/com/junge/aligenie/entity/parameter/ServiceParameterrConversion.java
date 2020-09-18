@@ -1,9 +1,6 @@
 package com.junge.aligenie.entity.parameter;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -39,8 +36,9 @@ public class ServiceParameterrConversion {
     @NotEmpty(message = "homeassistant参数不可为空")
     private String hassParameter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_parameter_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ServiceParameter serviceParameter;
 
     @Override

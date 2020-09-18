@@ -38,13 +38,14 @@ public class ServiceParameter {
     @NotEmpty(message = "类别")
     private String isConversion = "1";
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "serviceParameter")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "serviceParameter")
 //    @JoinColumn(name = "service_parameter_id",referencedColumnName = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<ServiceParameterrConversion> serviceParameterrConversions;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_type_operation_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private DeviceTypeOperation deviceTypeOperation;
 
     @Override
