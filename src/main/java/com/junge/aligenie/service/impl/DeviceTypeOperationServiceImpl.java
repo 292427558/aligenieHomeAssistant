@@ -53,7 +53,7 @@ public class DeviceTypeOperationServiceImpl implements DeviceTypeOperationServic
             String attribute = aliRequest.getPayload().getAttribute();
             //请求地址
             String service = deviceTypeOperation.getService();
-            service.replace('.','/');
+            String replace = service.replace('.', '/');
             String responseName = deviceTypeOperation.getResponseName();
             List<ServiceParameter> serviceParameters = deviceTypeOperation.getServiceParameters();
             for (ServiceParameter serviceParameter : serviceParameters) {
@@ -79,7 +79,7 @@ public class DeviceTypeOperationServiceImpl implements DeviceTypeOperationServic
             }
             HttpEntity<String> requestEntity = RestHomeAssistantUtils.getHttpEntity(jsonObject.toString());
             //异步执行homeassistant的接口 不然会超时
-            asycRestHomeAssistant.AsycExchangeRestApi("services/"+service, HttpMethod.POST,requestEntity);
+            asycRestHomeAssistant.AsycExchangeRestApi("services/"+replace, HttpMethod.POST,requestEntity);
             //返回响应结果
             AliControllResult aliControllResult = new AliControllResult();
             aliControllResult.setHeader(new HeaderBean("AliGenie.Iot.Device.Control",responseName,aliRequest.getHeader().getMessageId(),1));
