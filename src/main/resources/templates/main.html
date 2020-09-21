@@ -6,7 +6,7 @@
     <link rel='stylesheet' href='/css/bootstrap.min.css'>
     <link rel='stylesheet' href='css/style.css'>
     <script src="/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src='/js/bootstrap.min.js'></script>
+    <script src='/js/bootstrap.js'></script>
 
 </head>
 <body>
@@ -23,15 +23,15 @@
                 </a>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i> 天猫操作设置 <span class="caret"></span></a>
+                <a  class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-wrench"></i> 天猫操作设置 <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                     <li class="dropdown-header">天猫操作设置</li>
-                    <li><a href="#" onclick="getPages('operation')">新增操作</a></li>
-                    <li><a href="#" onclick="getPages('operations')">操作列表</a></li>
+                    <li><a  onclick="getPages('operation')">新增操作</a></li>
+                    <li><a  onclick="getPages('operations')">操作列表</a></li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i>设备设置 <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-cog"></i>设备设置 <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                     <li class="dropdown-header">设备设置</li>
                     <li><a href="#" onclick="getPages('device')">新增设备</a></li>
@@ -39,7 +39,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-plus"></i>设备类别 <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-align-justify"></i>设备类别 <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                     <li class="dropdown-header">天猫设备类别设置</li>
 <!--                    <li><a href="#" onclick="getPages('device')">新增设备</a></li>-->
@@ -72,7 +72,7 @@
     /*<![CDATA[*/
     var context = /*[[@{/}]]*/ '';
     /*]]>*/
-    $(document).ready(function() {
+  /*  $(document).ready(function() {
         var trigger = $('.hamburger'),
             overlay = $('.overlay'),
             isClosed = false;
@@ -96,16 +96,16 @@
         $('[data-toggle="offcanvas"]').click(function() {
             $('#wrapper').toggleClass('toggled');
         });
-    });
+    });*/
 
 
     function getPages(menuName) {
 
-        $(".nav-link").removeClass("active");
+        //$(".nav-link").removeClass("active");
         if(menuName=='operation'){
             $("#frame").ready(function () {
                 $("#frame").attr("src",context+"page/operation/addOperation");
-                $(".nav-link.operation").addClass("active")
+                //$(".nav-link.operation").addClass("active")
             })
         }else if(menuName=='operations'){
             $("#frame").ready(function () {
