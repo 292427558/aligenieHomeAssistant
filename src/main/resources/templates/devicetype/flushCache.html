@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>刷新缓存</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/form-validation.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container">
+    <button style="margin-top: 50px" class="btn btn-primary btn-lg btn-block"  onclick="add()">刷新缓存</button>
+    <div class="row">
+        <a></a>
+        <a></a>
+        <a></a>
+    </div>
+    <div class="row">
+    </div>
+
+</div>
+
+<script src="/js/jquery-1.9.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+
+    function add() {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/setting/flushCache" ,//url
+            data:{},
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.code == 200) {
+                    alert(result.msg);
+                }else if(result.code == 400){
+                    alert(result.msg);
+                }
+            },
+            error : function() {
+                alert("服务端异常！");
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

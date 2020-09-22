@@ -3,6 +3,7 @@ package com.junge.aligenie.web;
 import com.junge.aligenie.entity.Device;
 import com.junge.aligenie.entity.DeviceTypeOperation;
 import com.junge.aligenie.repository.DeviceTypeOperationRepository;
+import com.junge.aligenie.service.DeviceTypeOperationService;
 import com.junge.aligenie.utils.ReturnT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class DeviceTypeOperationController {
 
     @Autowired
     DeviceTypeOperationRepository deviceTypeOperationRepository;
+
+    @Autowired
+    DeviceTypeOperationService deviceTypeOperationService;
 
     @PostMapping("/DeviceTypeOperation")
     @ResponseBody
@@ -50,5 +54,12 @@ public class DeviceTypeOperationController {
     public ReturnT delOperations(@PathVariable("id") String id){
         deviceTypeOperationRepository.deleteById(id);
         return new ReturnT(200,"删除成功");
+    }
+
+    @PostMapping("/flushCache")
+    @ResponseBody
+    public ReturnT flushCache(){
+        deviceTypeOperationService.cacheWarmUp();
+        return new ReturnT(200,"缓存刷新成功！");
     }
 }

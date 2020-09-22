@@ -31,5 +31,5 @@ public interface DeviceTypeOperationService {
      **/
     AliControllResult getControlResult(AliRequest aliRequest,DeviceTypeOperation deviceTypeOperation, String deviceId);
 
-
+    void cacheWarmUp();
 }

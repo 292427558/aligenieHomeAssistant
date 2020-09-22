@@ -23,14 +23,6 @@
                 </a>
             </li>
             <li class="dropdown">
-                <a  class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-wrench"></i> 天猫操作设置 <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li class="dropdown-header">天猫操作设置</li>
-                    <li><a  onclick="getPages('operation')">新增操作</a></li>
-                    <li><a  onclick="getPages('operations')">操作列表</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-cog"></i>设备设置 <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                     <li class="dropdown-header">设备设置</li>
@@ -42,14 +34,22 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-align-justify"></i>设备类别 <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                     <li class="dropdown-header">天猫设备类别设置</li>
-<!--                    <li><a href="#" onclick="getPages('device')">新增设备</a></li>-->
+                    <!--                    <li><a href="#" onclick="getPages('device')">新增设备</a></li>-->
                     <li><a href="#" onclick="getPages('deviceTypeParameter')">设备类别列表</a></li>
+                    <li><a href="#" onclick="getPages('cache')">刷新缓存</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a  class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-fw fa-wrench"></i> 天猫操作设置 <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">天猫操作设置</li>
+                    <li><a  onclick="getPages('operation')">新增操作</a></li>
+                    <li><a  onclick="getPages('operations')">操作列表</a></li>
                 </ul>
             </li>
 <!--            <li>-->
 <!--                <a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>-->
 <!--            </li>-->
-
         </ul>
     </nav>
 
@@ -60,7 +60,7 @@
 <!--            <span class="hamb-middle"></span>-->
 <!--            <span class="hamb-bottom"></span>-->
 <!--        </button>-->
-        <iframe id="frame" src="/page/operation/addOperation" align="center" width="90%" height="900px"
+        <iframe id="frame" src="/page/operation/addOperation" align="center" width="90%" height="1200px"
                 frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" ></iframe>
     </div>
 
@@ -126,6 +126,11 @@
             $("#frame").ready(function () {
                 $("#frame").attr("src",context+"page/devicetype/deviceTypeParameter");
                 $(".nav-link.deviceTypeParameter").addClass("active")
+            })
+        }else if(menuName=='cache'){
+            $("#frame").ready(function () {
+                $("#frame").attr("src",context+"page/devicetype/flushCache");
+                //$(".nav-link.deviceTypeParameter").addClass("active")
             })
         }
 

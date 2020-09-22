@@ -15,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -36,9 +38,18 @@ public class DeviceTypeOperationServiceImpl implements DeviceTypeOperationServic
     @Autowired
     AsycRestHomeAssistant asycRestHomeAssistant;
 
+
+    private final Map<String, DeviceTypeOperation> cache = new ConcurrentHashMap<>();
+
     @Override
     public DeviceTypeOperation getDeviceTypeOperation(String deviceType, String operation) {
+        //先从缓存中获取数据
+        DeviceTypeOperation typeOperation = cache.get(deviceType + operation);
+        if(typeOperation!=null){
+            return typeOperation;
+        }
         DeviceTypeOperation deviceTypeOperation = deviceTypeOperationRepository.getDeviceTypeOperationByDeviceType_EnglishNameAndAndOperation_Name(deviceType, operation);
+        cache.put(deviceType + operation,deviceTypeOperation);
         return deviceTypeOperation;
     }
 
@@ -88,4 +99,31 @@ public class DeviceTypeOperationServiceImpl implements DeviceTypeOperationServic
         }
         return null;
     }
+
+    /**
+     * 预热缓存
+     * @Author LiuJun
+     * @Date 2020/9/22 10:09
+     * @return void
+     **/
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void cacheWarmUp(){
+        cache.clear();
+        //查询所有数据
+        List<DeviceTypeOperation> all = deviceTypeOperationRepository.findAll();
+        if(all!=null){
+            for (DeviceTypeOperation deviceTypeOperation : all) {
+                //由于懒加载机制加载所有相关数据
+                List<ServiceParameter> serviceParameters = deviceTypeOperation.getServiceParameters();
+                if(serviceParameters!=null){
+                    for (ServiceParameter serviceParameter : serviceParameters) {
+                        List<ServiceParameterrConversion> serviceParameterrConversions = serviceParameter.getServiceParameterrConversions();
+                    }
+                }
+                cache.put(deviceTypeOperation.getDeviceType().getEnglishName()+deviceTypeOperation.getOperation().getName(),deviceTypeOperation);
+            }
+        }
+    }
+
 }
