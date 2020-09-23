@@ -119,6 +119,11 @@ public class DeviceTypeOperationServiceImpl implements DeviceTypeOperationServic
                 if(serviceParameters!=null){
                     for (ServiceParameter serviceParameter : serviceParameters) {
                         List<ServiceParameterrConversion> serviceParameterrConversions = serviceParameter.getServiceParameterrConversions();
+                        if(serviceParameterrConversions!=null){
+                            serviceParameterrConversions.forEach(serviceParameterrConversion -> {
+                                String hassParameter = serviceParameterrConversion.getHassParameter();
+                            });
+                        }
                     }
                 }
                 cache.put(deviceTypeOperation.getDeviceType().getEnglishName()+deviceTypeOperation.getOperation().getName(),deviceTypeOperation);
