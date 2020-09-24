@@ -1,3 +1,8 @@
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE hass_operation;
+TRUNCATE TABLE hass_device_type;
+SET FOREIGN_KEY_CHECKS = 1;
+
 INSERT INTO `hass_operation` VALUES ('00f9b26f9e49455aab74adc91e615d52', '湿度减少', 'AdjustDownHumidity');
 INSERT INTO `hass_operation` VALUES ('09bee9b51ec848b88fb323c3fc326a60', '上一首或者上一台', 'Previous');
 INSERT INTO `hass_operation` VALUES ('0f3d3dc09b284320ac332698b5f326c9', '开启向上X度摆动', 'OpenUpSwing');
