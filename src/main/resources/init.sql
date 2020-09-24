@@ -68,6 +68,20 @@ CREATE TABLE IF NOT EXISTS  `hass_device_type`  (
 
 
 -- ----------------------------
+-- Table structure for hass_operation
+-- ----------------------------
+-- DROP TABLE IF EXISTS `hass_operation`;
+CREATE TABLE IF NOT EXISTS  `hass_operation`  (
+  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `friendly_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `UK_crgrlc03trfcfl7bumioiua4p`(`friendly_name`) USING BTREE,
+  UNIQUE INDEX `UK_6mnv7yvwuhw1yoaug2blq8gua`(`name`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+
+-- ----------------------------
 -- Table structure for hass_device_type_operation
 -- ----------------------------
 -- DROP TABLE IF EXISTS `hass_device_type_operation`;
@@ -87,18 +101,6 @@ CREATE TABLE IF NOT EXISTS  `hass_device_type_operation`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 
--- ----------------------------
--- Table structure for hass_operation
--- ----------------------------
--- DROP TABLE IF EXISTS `hass_operation`;
-CREATE TABLE IF NOT EXISTS  `hass_operation`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `friendly_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `UK_crgrlc03trfcfl7bumioiua4p`(`friendly_name`) USING BTREE,
-  UNIQUE INDEX `UK_6mnv7yvwuhw1yoaug2blq8gua`(`name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 
 -- ----------------------------
