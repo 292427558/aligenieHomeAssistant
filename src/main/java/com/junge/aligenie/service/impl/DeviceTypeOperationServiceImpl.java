@@ -48,9 +48,10 @@ public class DeviceTypeOperationServiceImpl implements DeviceTypeOperationServic
         if(typeOperation!=null){
             return typeOperation;
         }
-        DeviceTypeOperation deviceTypeOperation = deviceTypeOperationRepository.getDeviceTypeOperationByDeviceType_EnglishNameAndAndOperation_Name(deviceType, operation);
-        cache.put(deviceType + operation,deviceTypeOperation);
-        return deviceTypeOperation;
+        //DeviceTypeOperation deviceTypeOperation = deviceTypeOperationRepository.getDeviceTypeOperationByDeviceType_EnglishNameAndAndOperation_Name(deviceType, operation);
+        //cache.put(deviceType + operation,deviceTypeOperation);
+        //return deviceTypeOperation;
+        return null;
     }
 
 
