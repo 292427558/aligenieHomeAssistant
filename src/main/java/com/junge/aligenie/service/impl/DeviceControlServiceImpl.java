@@ -62,7 +62,11 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                     }
                     if("light".equals(deviceType)){
                         //灯
-                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_on","TurnOnResponse");
+                        if(deviceId.startsWith("switch")){
+                            aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/switch/turn_on","TurnOnResponse");
+                        }else {
+                            aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_on","TurnOnResponse");
+                        }
                         return aliControllResult;
                     }
                     if("smart-gating".equals(deviceType)||"curtain".equals(deviceType)){
@@ -90,7 +94,11 @@ public class DeviceControlServiceImpl implements DeviceControlService {
                     }
                     if("light".equals(deviceType)){
                         //灯
-                        aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_off","TurnOffResponse");
+                        if(deviceId.startsWith("switch")){
+                            aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/switch/turn_off","TurnOffResponse");
+                        }else {
+                            aliControllResult = homeAssistantApi.devicePowerSwitch(aliRequest, deviceId,"services/light/turn_off","TurnOffResponse");
+                        }
                         return aliControllResult;
                     }
                     if("smart-gating".equals(deviceType)||"curtain".equals(deviceType)){
