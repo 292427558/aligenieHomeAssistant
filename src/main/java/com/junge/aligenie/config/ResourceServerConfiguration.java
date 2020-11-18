@@ -14,6 +14,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
             resources.tokenExtractor(new MyBearerTokenExtractor());
+            resources.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
             resources.resourceId("gate").stateless(true);
         }
 
@@ -23,5 +24,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .authorizeRequests()
                     //配置需要认证的url，必须认证过后才可以访问
                     .antMatchers("/gate/**").authenticated();
+            //http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
         }
     }
