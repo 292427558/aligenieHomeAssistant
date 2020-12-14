@@ -1,5 +1,6 @@
 package com.junge.aligenie.config;
 
+import com.junge.aligenie.bean.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,11 +45,14 @@ public class CustomAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoi
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("Cache-Control", "no-store");
                 headers.set("Pragma", "no-cache");
-                if (status == HttpStatus.UNAUTHORIZED.value() || (e instanceof InsufficientScopeException)) {
-                    headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
-                }
-
-                ResponseEntity<OAuth2Exception> result = new ResponseEntity<OAuth2Exception>(e, headers,
+//                if (status == HttpStatus.UNAUTHORIZED.value() || (e instanceof InsufficientScopeException)) {
+//                    headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
+//                }
+//                ResponseEntity<OAuth2Exception> result = new ResponseEntity<OAuth2Exception>(e, headers,
+//                        HttpStatus.valueOf(status));
+                //构造返回数据
+                AliControllResult aliResult = createTokenInvalidateResponse(request);
+                ResponseEntity<AliControllResult> result = new ResponseEntity<>(aliResult, headers,
                         HttpStatus.valueOf(status));
                 exceptionRenderer.handleHttpEntityResponse(result, new ServletWebRequest(request, response));
                 response.flushBuffer();
@@ -60,6 +64,20 @@ public class CustomAuthenticationEntryPoint extends OAuth2AuthenticationEntryPoi
         }
     }
 
+    private AliControllResult createTokenInvalidateResponse(HttpServletRequest request) {
+        AliRequest aliRequest = (AliRequest) request.getAttribute("aliRequest");
+        AliControllResult aliResult = new AliControllResult();
+        if(aliRequest!=null){
+            HeaderBean headerBean = new HeaderBean(aliRequest.getHeader().getNamespace(), "ErrorResponse",aliRequest.getHeader().getMessageId(), 1);
+            aliResult.setHeader(headerBean);
+            AliControllResult.PayloadBean payload = aliResult.getPayload();
+            payload.setDeviceId(aliRequest.getPayload().getDeviceId());
+            payload.setErrorCode(AliErrorCode.ACCESS_TOKEN_INVALIDATE);
+            payload.setMessage("access_token is invalidate");
+            return aliResult;
+        }
+        return null;
+    }
 
 
 }
