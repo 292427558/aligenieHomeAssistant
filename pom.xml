@@ -17,7 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <output.jar.directory>${project.basedir}/docker-image</output.jar.directory>
-        <mysql.driver.version>8.0.15</mysql.driver.version>
+        <mysql.driver.version>8.0.16</mysql.driver.version>
     </properties>
 
     <dependencies>
