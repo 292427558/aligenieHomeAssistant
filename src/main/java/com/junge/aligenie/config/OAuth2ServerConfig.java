@@ -68,7 +68,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 .authorizedGrantTypes("authorization_code","refresh_token") //授权模式标识
                 .scopes("read_user_info") //作用域
                 .resourceIds("gate") //资源id
-                .accessTokenValiditySeconds(60*60*24*30)
+                .accessTokenValiditySeconds(60*60*25)
                 .refreshTokenValiditySeconds(90*24*60*60)
 //                .redirectUris("https://localhost:9090/oauth/callback"); //回调地址
                 .redirectUris("https://open.bot.tmall.com/oauth/callback"); //回调地址
